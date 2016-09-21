@@ -48,11 +48,22 @@ public class Minion : MonoBehaviour
             {
                 m_Falling = false;
             }
+            else if (t_Distance >= m_maximum_falling_distance)
+            { 
+                m_marked_to_die = true;
+            }
             else Debug.Log("Falling " + t_Distance);
         }
 
         if (m_Falling)
             m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
+        else
+        {
+            m_Velocity = Vector3.zero;
+            if (m_marked_to_die)
+                Die();
+        }
+
         transform.position += m_Velocity * Time.deltaTime;
 
         switch (m_Action)
@@ -80,6 +91,11 @@ public class Minion : MonoBehaviour
                 break;
         }
 	}
+
+    void Die ()
+    {
+        Destroy(gameObject);
+    }
 
     IEnumerator Dig()
     {
