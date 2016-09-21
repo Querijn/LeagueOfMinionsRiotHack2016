@@ -10,6 +10,9 @@ public class Minion : MonoBehaviour
         Digging
     };
 
+    public float m_maximum_falling_distance;
+    private bool m_marked_to_die;
+
     private Action m_Action;
 
     private Vector3 m_Velocity = Vector3.zero;
@@ -22,6 +25,7 @@ public class Minion : MonoBehaviour
 
 	void Start ()
     {
+        m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
         transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
     }
@@ -49,7 +53,6 @@ public class Minion : MonoBehaviour
 
         if (m_Falling)
             m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
-        else m_Velocity = Vector3.zero;
         transform.position += m_Velocity * Time.deltaTime;
 
         switch (m_Action)
