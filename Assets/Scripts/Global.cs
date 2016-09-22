@@ -6,9 +6,12 @@ public class Global : MonoBehaviour {
     //Record which game object is currently selected.
     GameObject selected_object;
 
-	// Use this for initialization
-	void Start () {
-	
+    public GameObject snare;
+    public GameObject shield;
+
+    // Use this for initialization
+    void Start () {
+	    
 	}
 	
 	// Update is called once per frame
@@ -46,5 +49,85 @@ public class Global : MonoBehaviour {
             }
         }
 
-	}
+        if (selected_object)
+        {
+            if (Input.GetKey(KeyCode.LeftShift))
+            {
+                Snare has_snare = selected_object.GetComponent<Snare>();
+                if (!has_snare)
+                    GameObject.Instantiate(snare, selected_object.transform.position, Quaternion.identity, selected_object.transform);
+            }
+            else if (Input.GetKey(KeyCode.LeftControl))
+            {
+                Shield has_shield = selected_object.GetComponent<Shield>();
+                if (!has_shield)
+                    GameObject.Instantiate(shield, selected_object.transform.position, Quaternion.identity, selected_object.transform);
+            }
+            else if (Input.GetKey(KeyCode.LeftAlt))
+            {
+                Destroy(selected_object);
+            }
+        }
+
+
+
+
+        // Moving the Camera
+        Vector2 mouseEdge = MouseScreenEdge(20);
+
+        if (!(Mathf.Approximately(mouseEdge.x, 0f))) 
+        {
+            //Move your camera depending on the sign of mouse.Edge.x
+
+            if (mouseEdge.x < 0)
+            {
+                transform.Translate(new Vector3(-10 * Time.deltaTime, 0, 0));
+            }
+            else
+            {
+                transform.Translate(new Vector3(10 * Time.deltaTime, 0, 0));    
+            }
+        }
+
+    }
+
+    // http://answers.unity3d.com/questions/425712/how-can-i-move-the-camera-when-the-mouse-reaches-t.html
+    Vector2 MouseScreenEdge(int margin)
+    {
+        //Margin is calculated in px from the edge of the screen
+
+        Vector2 half = new Vector2(Screen.width / 2, Screen.height / 2);
+
+        //If mouse is dead center, (x,y) would be (0,0)
+        float x = Input.mousePosition.x - half.x;
+        float y = Input.mousePosition.y - half.y;
+
+        //If x is not within the edge margin, then x is 0;
+        //In another word, not close to the edge
+        if (Mathf.Abs(x) > half.x - margin)
+        {
+            if (x <= 0)
+                x += margin - half.x;
+            else
+                x += half.x - margin;
+        }
+        else
+        {
+            x = 0f;
+        }
+
+        if (Mathf.Abs(y) > half.y - margin)
+        {
+            if (y <= 0)
+                y += margin - half.y;
+            else
+                y += half.y - margin;
+        }
+        else
+        {
+            y = 0f;
+        }
+
+        return new Vector2(x, y);
+    }
 }

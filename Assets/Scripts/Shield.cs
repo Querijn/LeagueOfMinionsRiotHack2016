@@ -17,6 +17,17 @@ public class Shield : MonoBehaviour {
 	
 	}
 
+    void OnTriggerEnter(Collider a_Collider)
+    {
+        if (a_Collider.tag == "Tower Projectile")
+        {
+            if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject.transform.parent.gameObject))
+            {
+                UpdateHealth(-1);
+            }
+        }
+    }
+
     public void UpdateHealth(float variation)
     {
         m_shieldHealth += variation;

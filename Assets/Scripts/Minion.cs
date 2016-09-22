@@ -26,8 +26,6 @@ public class Minion : MonoBehaviour
     private CustomAnimation m_Animator;
     private int m_WallsLayerMask;
 
-    public Shield m_shield;
-
     protected float m_speedModifier;
     protected float m_hasSpeedModifier;
     protected GameObject m_attackTowerTarget;
@@ -126,7 +124,7 @@ public class Minion : MonoBehaviour
 
     IEnumerator Die()
     {
-        // m_Animator.PlayAnimation("minion_death", false, false);
+        m_Animator.PlayAnimation("Take 001", false, false);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
@@ -137,15 +135,8 @@ public class Minion : MonoBehaviour
         {
             if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
             {
-                if (m_shield)
-                {
-                    m_shield.UpdateHealth(-1);
-                }
-                else
-                {
-                    Destroy(a_Collider.gameObject);
-                    UpdateHealth(-1);
-                }
+                Destroy(a_Collider.gameObject);
+                UpdateHealth(-1);
             }
         }
         else if (a_Collider.tag == "Tower")
