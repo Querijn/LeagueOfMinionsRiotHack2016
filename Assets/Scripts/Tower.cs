@@ -4,7 +4,7 @@ using System.Collections;
 public class Tower : MonoBehaviour {
 
     public float m_firerate;
-
+    public float m_health;
     public TowerProjectile m_projectile;
 
     protected bool m_isShooting = false;
@@ -77,11 +77,27 @@ public class Tower : MonoBehaviour {
         {
             m_isShooting = true;
             m_nextFire = Time.time + m_firerate;
-            TowerProjectile projectile = (TowerProjectile)Instantiate(m_projectile, transform.position, Quaternion.identity);
+            Vector3 projectile_position = new Vector3(transform.position.x -0.330f, transform.position.y + 1.745f, 0);
+
+            TowerProjectile projectile = (TowerProjectile)Instantiate(m_projectile, projectile_position, Quaternion.identity);
             projectile.SetTarget(target);
             m_latestTarget = target;
 
-            Debug.Log("Spawning a projectile, target: '" + target.name + "'");
+            //Debug.Log("Spawning a projectile, target: '" + target.name + "'");
         }
+    }
+
+    public void UpdateHealth(float variation)
+    {
+        m_health += variation;
+        if (m_health <= 0)
+        {
+            Destroy(gameObject);
+        }
+    }
+
+    public bool IsDead()
+    {
+        return (m_health <= 0.0f);
     }
 }

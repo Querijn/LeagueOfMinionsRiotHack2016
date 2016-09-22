@@ -6,7 +6,8 @@ public class Minion : MonoBehaviour
     public enum Action
     {
         Unknown,
-        Walking
+        Walking,
+        Atacking
     };
 
     public float m_health = 5.0f;
@@ -26,6 +27,15 @@ public class Minion : MonoBehaviour
     private int m_WallsLayerMask;
 
     public Shield m_shield;
+
+    protected float m_speedModifier;
+    protected float m_hasSpeedModifier;
+    protected GameObject m_attackTowerTarget;
+
+    // Probably there is a better way to do this
+    protected float m_attackNext;
+    protected float m_nextAttackDamage;
+    protected float m_attackSpeed = 0.933f; // The same lenght as the attack animation
 
     void Start()
     {
@@ -64,6 +74,12 @@ public class Minion : MonoBehaviour
 
         transform.position += m_Velocity * Time.deltaTime;
 
+        Vector3 walkSpeed = m_WalkDirection;
+        if (m_hasSpeedModifier >= Time.time)
+        {
+            walkSpeed *= m_speedModifier;
+        }
+
         switch (m_Action)
         {
             case Action.Unknown:
@@ -73,13 +89,39 @@ public class Minion : MonoBehaviour
 
             case Action.Walking:
                 m_Animator.PlayAnimation("minion_melee_run", false, false);
-                if (m_Falling)
-                    break;
 
-                transform.position += m_WalkDirection * Time.deltaTime;
+                transform.position += walkSpeed * Time.deltaTime;
                 break;
 
+            case Action.Atacking:
+                m_Animator.PlayAnimation("minion_melee_attack5", false, false);
+                break;
         }
+    }
+
+    void FixedUpdate()
+    {
+        if (m_attackTowerTarget)
+        {
+            if (Time.time > m_attackNext)
+            {
+                AttackTarget(m_attackTowerTarget);
+            }
+
+            TurretBody turret = m_attackTowerTarget.GetComponent<TurretBody>();
+
+            if (turret && turret.IsDead())
+            {
+                m_attackTowerTarget = null;
+                m_Action = Action.Walking;
+            }
+        }
+        else
+        {
+            m_Action = Action.Walking;
+        }
+        
+
     }
 
     IEnumerator Die()
@@ -102,15 +144,17 @@ public class Minion : MonoBehaviour
                 else
                 {
                     Destroy(a_Collider.gameObject);
-                    m_health -= 1;
-                    if (m_health <= 0)
-                    {
-                        StartCoroutine(Die());
-                    }
+                    UpdateHealth(-1);
                 }
             }
         }
-        else if (a_Collider.tag == "Tower" || a_Collider.tag == "Minion")
+        else if (a_Collider.tag == "Tower")
+        {
+            m_Action = Action.Atacking;
+            m_attackNext = Time.time + m_attackSpeed;
+            m_attackTowerTarget = a_Collider.gameObject;
+        }
+        else if (a_Collider.tag == "Minion" || a_Collider.tag == "Minion Ignorable")
         {
         }
         else if (m_Falling)
@@ -136,13 +180,29 @@ public class Minion : MonoBehaviour
 
     }
     
-    public float GetHeath()
+    void AttackTarget(GameObject target)
     {
-        return m_health;
+        m_attackNext = Time.time + m_attackSpeed;
+        target.SendMessage("UpdateHealth", -1.0f);
+    }
+
+    public void UpdateHealth(float variation)
+    {
+        m_health += variation;
+        if (m_health <= 0)
+        {
+            StartCoroutine(Die());
+        }
     }
 
     public bool IsDead()
     {
-        return (GetHeath() <= 0.0f);
+        return (m_health <= 0.0f);
+    }
+
+    public void ChangeSpeed(float percentage, float duration)
+    {
+        m_hasSpeedModifier = Time.time + duration;
+        m_speedModifier = percentage;
     }
 }
