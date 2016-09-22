@@ -11,33 +11,27 @@ public class Minion : MonoBehaviour
     };
 
     public float m_health = 5.0f;
-    public float m_maximum_falling_distance;
-    private bool m_marked_to_die;
 
     private Action m_Action;
 
     private Vector3 m_Velocity = Vector3.zero;
     private Vector3 m_WalkDirection = Vector3.right;
 
-    private GameObject m_DiggingBlock = null;
-    private bool m_Digging = false;
-    private bool m_Falling = true;
-
     private CustomAnimation m_Animator;
     private int m_WallsLayerMask;
 
     protected float m_speedModifier;
     protected float m_hasSpeedModifier;
-    protected GameObject m_attackTowerTarget;
+    
 
     // Probably there is a better way to do this
     protected float m_attackNext;
     protected float m_nextAttackDamage;
     protected float m_attackSpeed = 0.933f; // The same lenght as the attack animation
+    protected GameObject m_attackTowerTarget;
 
     void Start()
     {
-        m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
         transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
         m_WallsLayerMask = LayerMask.GetMask(new[] { "Walls" });
@@ -45,31 +39,6 @@ public class Minion : MonoBehaviour
 
     void Update()
     {
-        Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
-        RaycastHit t_Hit;
-        if (Physics.Raycast(t_Ray, out t_Hit, m_WallsLayerMask))
-        {
-            float t_Distance = Mathf.Abs((t_Hit.transform.position - transform.position).y);
-
-            //if (t_Distance >= 0.1)
-            //{
-            //    if (t_Distance >= m_maximum_falling_distance)
-            //    {
-            //        m_marked_to_die = true;
-            //    }
-            //    m_Falling = true;
-            //}
-        }
-
-        if (m_Falling)
-            m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
-        else
-        {
-            m_Velocity = Vector3.zero;
-            if (m_marked_to_die)
-                StartCoroutine(Die());
-        }
-
         transform.position += m_Velocity * Time.deltaTime;
 
         Vector3 walkSpeed = m_WalkDirection;
@@ -118,13 +87,11 @@ public class Minion : MonoBehaviour
         {
             m_Action = Action.Walking;
         }
-        
-
     }
 
     IEnumerator Die()
     {
-        m_Animator.PlayAnimation("Take 001", false, false);
+        //m_Animator.PlayAnimation("Take 001", false, false);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
@@ -148,24 +115,10 @@ public class Minion : MonoBehaviour
         else if (a_Collider.tag == "Minion" || a_Collider.tag == "Minion Ignorable")
         {
         }
-        else if (m_Falling)
-        {
-            m_Falling = false;
-            m_Velocity = Vector3.zero;
-
-            // Hack to get character out of floor
-            Bounds t_WallBounds = a_Collider.gameObject.GetComponent<BoxCollider>().bounds;
-            Bounds t_MinionBounds = GetComponent<BoxCollider>().bounds;
-            while(t_WallBounds.Intersects(t_MinionBounds))
-            {
-                transform.position += Vector3.up * 0.01f;
-                t_MinionBounds = GetComponent<BoxCollider>().bounds;
-            }
-        }
         else
         {
-            m_WalkDirection *= -1;
-            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+            //m_WalkDirection *= -1;
+            //transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
         }
 
 

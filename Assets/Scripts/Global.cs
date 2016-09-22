@@ -9,15 +9,28 @@ public class Global : MonoBehaviour {
     public GameObject snare;
     public GameObject shield;
 
+    public float maxMana;
+    public float manaPerSec;
+    public float manaRegenRate;
+    protected float currentMana;
+
+    void AddMana ()
+    {
+        currentMana += manaPerSec / 5.0f;
+        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+    }
+
     // Use this for initialization
     void Start () {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        InvokeRepeating("AddMana", 1 / 5.0f, 1 / 5.0f);
+    }
 
-        //Detect a mousedown on a minion object.
+	// Update is called once per frame
+	void Update ()
+    {
+        
+        
+         //Detect a mousedown on a minion object.
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
