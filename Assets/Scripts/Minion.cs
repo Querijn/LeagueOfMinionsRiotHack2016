@@ -200,6 +200,11 @@ public class Minion : MonoBehaviour
         return (m_health <= 0.0f);
     }
 
+    public void ChangeSpeed(Vector2 packed)
+    {
+        ChangeSpeed(packed.x, packed.y);
+    }
+
     public void ChangeSpeed(float percentage, float duration)
     {
         m_hasSpeedModifier = Time.time + duration;

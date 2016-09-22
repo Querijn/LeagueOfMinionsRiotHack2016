@@ -5,10 +5,12 @@ public class Shield : MonoBehaviour {
 
     public float m_shieldHealth;
 
+
     // Use this for initialization
-    void Start () {
-	    
-	}
+    
+    void Start ()
+    {
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -23,4 +25,6 @@ public class Shield : MonoBehaviour {
             Destroy(gameObject);
         }
     }
+
+    
 }
