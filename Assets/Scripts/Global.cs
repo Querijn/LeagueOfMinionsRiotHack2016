@@ -35,8 +35,11 @@ public class Global : MonoBehaviour {
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f) && hit.transform.gameObject.tag == "Minion")
+            if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask(new[] { "Selectables" })))
             {
+
+                if (selected_object)
+                    selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
 
                 //Set this object as the selected object
                 selected_object = hit.transform.gameObject;
@@ -46,15 +49,10 @@ public class Global : MonoBehaviour {
                 renderer.material.shader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
                 renderer.material.SetColor("_Color", Color.white);
                 renderer.material.SetColor("_OutlineColor", Color.green);
-                renderer.material.SetFloat("_Outline", 0.2f);
-              
-            }
-        }
+                renderer.material.SetFloat("_Outline", 0.005f);
 
-        //Right-Click to deselect
-        if (Input.GetMouseButtonDown(1))
-        {
-            if (selected_object)
+            }
+            else if (selected_object)
             {
                 //Set normal shader on gameObject's renderer
                 selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");

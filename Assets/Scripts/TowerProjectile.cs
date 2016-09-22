@@ -28,6 +28,8 @@ public class TowerProjectile : MonoBehaviour {
 	    if (m_currentTarget)
         {
             transform.position = Vector3.MoveTowards(transform.position, m_currentTarget.transform.position, speed * Time.deltaTime);
+            //Rotation to point towards target
+            transform.forward = m_currentTarget.transform.position - transform.position;
         }
         else if (m_enabled)
         {

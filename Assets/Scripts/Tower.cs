@@ -80,6 +80,7 @@ public class Tower : MonoBehaviour {
             Vector3 projectile_position = new Vector3(transform.position.x -0.330f, transform.position.y + 1.745f, 0);
 
             TowerProjectile projectile = (TowerProjectile)Instantiate(m_projectile, projectile_position, Quaternion.identity);
+            projectile.transform.forward = target.transform.position - projectile.transform.position;
             projectile.SetTarget(target);
             m_latestTarget = target;
 

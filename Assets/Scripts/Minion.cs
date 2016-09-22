@@ -7,15 +7,19 @@ public class Minion : MonoBehaviour
     {
         Unknown,
         Walking,
-        Atacking
+        Atacking,
+        Dying
     };
 
     public float m_health = 5.0f;
+    public float m_GroundPlaneHeight = 0.5f;
 
     private Action m_Action;
 
     private Vector3 m_Velocity = Vector3.zero;
     private Vector3 m_WalkDirection = Vector3.right;
+
+    private bool m_Falling = true;
 
     private CustomAnimation m_Animator;
     private int m_WallsLayerMask;
@@ -39,6 +43,18 @@ public class Minion : MonoBehaviour
 
     void Update()
     {
+        m_Falling = (transform.position.y > m_GroundPlaneHeight);
+        if (m_Falling)
+            m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
+        else
+        {
+            m_Velocity = Vector3.zero;
+            Vector3 t_Position = transform.position;
+            if (t_Position.y < m_GroundPlaneHeight)
+                t_Position.y = m_GroundPlaneHeight;
+            transform.position = t_Position;
+        }
+
         transform.position += m_Velocity * Time.deltaTime;
 
         Vector3 walkSpeed = m_WalkDirection;
@@ -62,6 +78,9 @@ public class Minion : MonoBehaviour
 
             case Action.Atacking:
                 m_Animator.PlayAnimation("minion_melee_attack5", false, false);
+                break;
+
+            case Action.Dying:
                 break;
         }
     }
@@ -91,7 +110,8 @@ public class Minion : MonoBehaviour
 
     IEnumerator Die()
     {
-        //m_Animator.PlayAnimation("Take 001", false, false);
+        m_Action = Action.Dying;
+        m_Animator.PlayAnimation("minion_melee_death3", true, true);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
@@ -115,10 +135,15 @@ public class Minion : MonoBehaviour
         else if (a_Collider.tag == "Minion" || a_Collider.tag == "Minion Ignorable")
         {
         }
+        else if (m_Falling)
+        {
+            m_Falling = false;
+            m_Velocity = Vector3.zero;
+        }
         else
         {
-            //m_WalkDirection *= -1;
-            //transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+            m_WalkDirection *= -1;
+            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
         }
 
 
