@@ -6,8 +6,7 @@ public class Minion : MonoBehaviour
     public enum Action
     {
         Unknown,
-        Walking,
-        Digging
+        Walking
     };
 
     public float m_health = 5;
@@ -24,24 +23,22 @@ public class Minion : MonoBehaviour
     private bool m_Falling = true;
 
     private CustomAnimation m_Animator;
+    private int m_WallsLayerMask;
 
-	void Start ()
+
+    void Start ()
     {
         m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
         transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        m_WallsLayerMask = LayerMask.GetMask(new[] { "Walls" });
     }
 
     void Update()
     {
-        if (Input.GetKeyUp(KeyCode.Space))
-        {
-            m_Action = Action.Digging;
-        }
-
         Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
         RaycastHit t_Hit;
-        if (Physics.Raycast(t_Ray, out t_Hit, LayerMask.NameToLayer("Walls")))
+        if (Physics.Raycast(t_Ray, out t_Hit, m_WallsLayerMask))
         {
             float t_Distance = Mathf.Abs((t_Hit.transform.position - transform.position).y);
 
@@ -80,22 +77,7 @@ public class Minion : MonoBehaviour
 
                 transform.position += m_WalkDirection * Time.deltaTime;
                 break;
-
-            case Action.Digging:
-                if (m_Falling)
-                {
-                    m_Animator.PlayAnimation("minion_melee_run", false, false);
-                    break;
-                }
-
-                m_Animator.PlayAnimation("minion_melee_attack5", false, false);
-
-                if (m_Digging == false)
-                {
-                    m_Digging = true;
-                    StartCoroutine(Dig());
-                }
-                break;
+                
         }
 	}
 
@@ -105,38 +87,7 @@ public class Minion : MonoBehaviour
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
-
-    IEnumerator Dig()
-    {
-        yield return new WaitForSeconds(0.5f);
-
-        if (m_DiggingBlock == null)
-        {
-            Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
-            RaycastHit t_Hit;
-            if (Physics.Raycast(t_Ray, out t_Hit, LayerMask.NameToLayer("Walls")))
-            {
-                m_DiggingBlock = t_Hit.collider.gameObject;
-
-                Vector3 t_Position = transform.position;
-                t_Position.x = t_Hit.transform.position.x;
-                transform.position = t_Position;
-            }
-        }
-        
-        if (m_DiggingBlock != null && m_DiggingBlock.transform.localScale.y > 0.1f)
-        {
-            m_DiggingBlock.transform.localScale -= new Vector3(0, 0.1f, 0);
-            m_DiggingBlock.transform.localPosition -= new Vector3(0, 0.05f, 0);
-        }
-        else
-        {
-            Destroy(m_DiggingBlock);
-            m_DiggingBlock = null;
-        }
-        m_Digging = false;
-    }
-
+   
     void OnTriggerEnter(Collider a_Collider)
     {
         if (a_Collider.tag == "Tower Projectile")
