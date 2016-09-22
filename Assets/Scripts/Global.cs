@@ -22,23 +22,26 @@ public class Global : MonoBehaviour {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             if (Physics.Raycast(ray, out hit, 100.0f) && hit.transform.gameObject.name == "Minion")
             {
-                selected_object = hit.transform.gameObject;           
+
+                //Set this object as the selected object
+                selected_object = hit.transform.gameObject;
+
+                //Set the shader
+                Renderer renderer = selected_object.GetComponentInChildren<Renderer>();
+                renderer.material.shader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
+                renderer.material.SetColor("_Color", Color.white);
+                renderer.material.SetColor("_OutlineColor", Color.green);
+                renderer.material.SetFloat("_Outline", 0.2f);
+              
             }
         }
 
         //Right-Click to deselect
         if (Input.GetMouseButtonDown(1))
         {
+            //Set normal shader on gameObject's renderer
+            selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
             selected_object = null;
-            GameObject.Find("Sphere").transform.position = new Vector3(500, 500, 500); //Offscreen
-        }
-
-        //Draw a selection indicator (red dot?) above the game object.
-        if(selected_object != null)
-        {
-            Vector3 position = selected_object.transform.position;
-            position.y += 1; //Move up above minion.
-            GameObject.Find("Sphere").transform.position = position;
         }
 
 	}
