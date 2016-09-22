@@ -7,11 +7,13 @@ public class Minion : MonoBehaviour
     {
         Unknown,
         Walking,
-        Atacking
+        Atacking,
+        Dying
     };
 
     public float m_health = 5.0f;
     public float m_maximum_falling_distance;
+    public float m_GroundPlaneHeight = 0.5f;
     private bool m_marked_to_die;
 
     private Action m_Action;
@@ -45,29 +47,18 @@ public class Minion : MonoBehaviour
 
     void Update()
     {
-        Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
-        RaycastHit t_Hit;
-        if (Physics.Raycast(t_Ray, out t_Hit, m_WallsLayerMask))
-        {
-            float t_Distance = Mathf.Abs((t_Hit.transform.position - transform.position).y);
-
-            //if (t_Distance >= 0.1)
-            //{
-            //    if (t_Distance >= m_maximum_falling_distance)
-            //    {
-            //        m_marked_to_die = true;
-            //    }
-            //    m_Falling = true;
-            //}
-        }
+        m_Falling = (transform.position.y > m_GroundPlaneHeight);
 
         if (m_Falling)
             m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
         else
         {
             m_Velocity = Vector3.zero;
-            if (m_marked_to_die)
-                StartCoroutine(Die());
+
+            // Make sure we're always above or on the ground
+            Vector3 t_Position = transform.position;
+            if (t_Position.y < m_GroundPlaneHeight) t_Position.y = m_GroundPlaneHeight;
+            transform.position = t_Position;
         }
 
         transform.position += m_Velocity * Time.deltaTime;
@@ -93,6 +84,9 @@ public class Minion : MonoBehaviour
 
             case Action.Atacking:
                 m_Animator.PlayAnimation("minion_melee_attack5", false, false);
+                break;
+
+            case Action.Dying:
                 break;
         }
     }
@@ -124,7 +118,8 @@ public class Minion : MonoBehaviour
 
     IEnumerator Die()
     {
-        m_Animator.PlayAnimation("Take 001", false, false);
+        m_Action = Action.Dying;
+        m_Animator.PlayAnimation("minion_melee_death3", true, true);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
