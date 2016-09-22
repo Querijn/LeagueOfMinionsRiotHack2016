@@ -6,10 +6,11 @@ public class Minion : MonoBehaviour
     public enum Action
     {
         Unknown,
-        Walking
+        Walking,
+        Atacking
     };
 
-    public float m_health = 5;
+    public float m_health = 5.0f;
     public float m_maximum_falling_distance;
     private bool m_marked_to_die;
 
@@ -25,8 +26,16 @@ public class Minion : MonoBehaviour
     private CustomAnimation m_Animator;
     private int m_WallsLayerMask;
 
+    protected float m_speedModifier;
+    protected float m_hasSpeedModifier;
+    protected GameObject m_attackTowerTarget;
 
-    void Start ()
+    // Probably there is a better way to do this
+    protected float m_attackNext;
+    protected float m_nextAttackDamage;
+    protected float m_attackSpeed = 0.933f; // The same lenght as the attack animation
+
+    void Start()
     {
         m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
@@ -42,14 +51,14 @@ public class Minion : MonoBehaviour
         {
             float t_Distance = Mathf.Abs((t_Hit.transform.position - transform.position).y);
 
-            if (t_Distance >= 0.1)
-            {
-                if (t_Distance >= m_maximum_falling_distance)
-                {
-                    m_marked_to_die = true;
-                }
-                m_Falling = true;
-            }
+            //if (t_Distance >= 0.1)
+            //{
+            //    if (t_Distance >= m_maximum_falling_distance)
+            //    {
+            //        m_marked_to_die = true;
+            //    }
+            //    m_Falling = true;
+            //}
         }
 
         if (m_Falling)
@@ -63,6 +72,12 @@ public class Minion : MonoBehaviour
 
         transform.position += m_Velocity * Time.deltaTime;
 
+        Vector3 walkSpeed = m_WalkDirection;
+        if (m_hasSpeedModifier >= Time.time)
+        {
+            walkSpeed *= m_speedModifier;
+        }
+
         switch (m_Action)
         {
             case Action.Unknown:
@@ -72,22 +87,48 @@ public class Minion : MonoBehaviour
 
             case Action.Walking:
                 m_Animator.PlayAnimation("minion_melee_run", false, false);
-                if (m_Falling)
-                    break;
 
-                transform.position += m_WalkDirection * Time.deltaTime;
+                transform.position += walkSpeed * Time.deltaTime;
                 break;
-                
-        }
-	}
 
-    IEnumerator Die ()
+            case Action.Atacking:
+                m_Animator.PlayAnimation("minion_melee_attack5", false, false);
+                break;
+        }
+    }
+
+    void FixedUpdate()
     {
-        // m_Animator.PlayAnimation("minion_death", false, false);
+        if (m_attackTowerTarget)
+        {
+            if (Time.time > m_attackNext)
+            {
+                AttackTarget(m_attackTowerTarget);
+            }
+
+            TurretBody turret = m_attackTowerTarget.GetComponent<TurretBody>();
+
+            if (turret && turret.IsDead())
+            {
+                m_attackTowerTarget = null;
+                m_Action = Action.Walking;
+            }
+        }
+        else
+        {
+            m_Action = Action.Walking;
+        }
+        
+
+    }
+
+    IEnumerator Die()
+    {
+        m_Animator.PlayAnimation("Take 001", false, false);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
-   
+
     void OnTriggerEnter(Collider a_Collider)
     {
         if (a_Collider.tag == "Tower Projectile")
@@ -95,17 +136,19 @@ public class Minion : MonoBehaviour
             if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
             {
                 Destroy(a_Collider.gameObject);
-                m_health -= 1;
-                if (m_health <= 0)
-                    StartCoroutine(Die());
+                UpdateHealth(-1);
             }
         }
-
-        else if (a_Collider.tag == "Tower" || a_Collider.tag == "Minion")
+        else if (a_Collider.tag == "Tower")
         {
-
+            m_Action = Action.Atacking;
+            m_attackNext = Time.time + m_attackSpeed;
+            m_attackTowerTarget = a_Collider.gameObject;
         }
-        if (m_Falling)
+        else if (a_Collider.tag == "Minion" || a_Collider.tag == "Minion Ignorable")
+        {
+        }
+        else if (m_Falling)
         {
             m_Falling = false;
             m_Velocity = Vector3.zero;
@@ -124,15 +167,38 @@ public class Minion : MonoBehaviour
             m_WalkDirection *= -1;
             transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
         }
+
+
     }
     
-    public float GetHeath()
+    void AttackTarget(GameObject target)
     {
-        return m_health;
+        m_attackNext = Time.time + m_attackSpeed;
+        target.SendMessage("UpdateHealth", -1.0f);
+    }
+
+    public void UpdateHealth(float variation)
+    {
+        m_health += variation;
+        if (m_health <= 0)
+        {
+            StartCoroutine(Die());
+        }
     }
 
     public bool IsDead()
     {
-        return (GetHeath() <= 0.0f);
+        return (m_health <= 0.0f);
+    }
+
+    public void ChangeSpeed(Vector2 packed)
+    {
+        ChangeSpeed(packed.x, packed.y);
+    }
+
+    public void ChangeSpeed(float percentage, float duration)
+    {
+        m_hasSpeedModifier = Time.time + duration;
+        m_speedModifier = percentage;
     }
 }

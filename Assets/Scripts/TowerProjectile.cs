@@ -4,6 +4,8 @@ using System.Collections;
 public class TowerProjectile : MonoBehaviour {
 
     public float speed;
+
+    protected bool m_enabled = false;
     protected GameObject m_currentTarget;
 
 	void Start () {
@@ -12,6 +14,7 @@ public class TowerProjectile : MonoBehaviour {
     public void SetTarget (GameObject target)
     {
         m_currentTarget = target;
+        m_enabled = true;
     }
 
 
@@ -25,6 +28,10 @@ public class TowerProjectile : MonoBehaviour {
 	    if (m_currentTarget)
         {
             transform.position = Vector3.MoveTowards(transform.position, m_currentTarget.transform.position, speed * Time.deltaTime);
+        }
+        else if (m_enabled)
+        {
+            Die();
         }
     }
 
