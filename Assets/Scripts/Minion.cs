@@ -10,6 +10,7 @@ public class Minion : MonoBehaviour
         Digging
     };
 
+    public float m_health;
     public float m_maximum_falling_distance;
     private bool m_marked_to_die;
 
@@ -52,7 +53,7 @@ public class Minion : MonoBehaviour
             { 
                 m_marked_to_die = true;
             }
-            else Debug.Log("Falling " + t_Distance);
+            //else Debug.Log("Falling " + t_Distance);
         }
 
         if (m_Falling)
@@ -126,7 +127,37 @@ public class Minion : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        m_WalkDirection *= -1;
-        transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        Collider collider = other.GetComponent<Collider>();
+        if (collider == null)
+            return;
+
+        if (collider.tag == "Tower Projectile")
+        {
+            if (collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
+            {
+                Destroy(collider.gameObject);
+                m_health -= 1;
+                if (m_health <= 0)
+                    Die();
+            }
+        }
+        else if (collider.tag == "Tower" || collider.tag == "Minion")
+        {}
+        else
+        {
+            m_WalkDirection *= -1;
+            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        }
     }
+
+    public float GetHeath()
+    {
+        return m_health;
+    }
+
+    public bool IsDead()
+    {
+        return (GetHeath() <= 0.0f);
+    }
+
 }
