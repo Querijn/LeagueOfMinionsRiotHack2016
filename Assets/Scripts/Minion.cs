@@ -146,6 +146,7 @@ public class Minion : MonoBehaviour
                 Destroy(a_Collider.gameObject);
                 m_health -= 1;
                 if (m_health <= 0)
+                    StartCoroutine(Die());
             }
         }
 
