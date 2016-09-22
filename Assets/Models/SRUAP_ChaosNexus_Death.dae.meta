@@ -1,0 +1,171 @@
+fileFormatVersion: 2
+guid: 962334814e928144c9c926ed96e9808c
+timeCreated: 1474579643
+licenseType: Free
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: base
+    100002: bone_base
+    100004: bone_bp
+    100006: bone_bp1
+    100008: bone_bp10
+    100010: bone_bp2
+    100012: bone_bp3
+    100014: bone_bp4
+    100016: bone_bp6
+    100018: bone_bp7
+    100020: bone_bp8
+    100022: bone_bp9
+    100024: bone_cp
+    100026: bone_cp1
+    100028: bone_cp10
+    100030: bone_cp11
+    100032: bone_cp12
+    100034: bone_cp13
+    100036: bone_cp14
+    100038: bone_cp15
+    100040: bone_cp16
+    100042: bone_cp17
+    100044: bone_cp18
+    100046: bone_cp19
+    100048: bone_cp2
+    100050: bone_cp20
+    100052: bone_cp21
+    100054: bone_cp3
+    100056: bone_cp4
+    100058: bone_cp5
+    100060: bone_cp6
+    100062: bone_cp7
+    100064: bone_cp8
+    100066: bone_cp9
+    100068: bone_pp1
+    100070: bone_pp2
+    100072: bone_pp3
+    100074: bone_pp4
+    100076: crystal
+    100078: crystals
+    100080: Model
+    100082: Root_break
+    100084: Shield1
+    100086: Shield2
+    100088: Shield3
+    100090: Shield4
+    100092: Shields
+    100094: //RootNode
+    400000: base
+    400002: bone_base
+    400004: bone_bp
+    400006: bone_bp1
+    400008: bone_bp10
+    400010: bone_bp2
+    400012: bone_bp3
+    400014: bone_bp4
+    400016: bone_bp6
+    400018: bone_bp7
+    400020: bone_bp8
+    400022: bone_bp9
+    400024: bone_cp
+    400026: bone_cp1
+    400028: bone_cp10
+    400030: bone_cp11
+    400032: bone_cp12
+    400034: bone_cp13
+    400036: bone_cp14
+    400038: bone_cp15
+    400040: bone_cp16
+    400042: bone_cp17
+    400044: bone_cp18
+    400046: bone_cp19
+    400048: bone_cp2
+    400050: bone_cp20
+    400052: bone_cp21
+    400054: bone_cp3
+    400056: bone_cp4
+    400058: bone_cp5
+    400060: bone_cp6
+    400062: bone_cp7
+    400064: bone_cp8
+    400066: bone_cp9
+    400068: bone_pp1
+    400070: bone_pp2
+    400072: bone_pp3
+    400074: bone_pp4
+    400076: crystal
+    400078: crystals
+    400080: Model
+    400082: Root_break
+    400084: Shield1
+    400086: Shield2
+    400088: Shield3
+    400090: Shield4
+    400092: Shields
+    400094: //RootNode
+    4300000: Model
+    7400000: Take 001
+    9500000: //RootNode
+    13700000: Model
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.01
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
