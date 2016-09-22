@@ -22,7 +22,6 @@ public class Minion : MonoBehaviour
     private bool m_Falling = true;
 
     private CustomAnimation m_Animator;
-    private int m_WallsLayerMask;
 
     protected float m_speedModifier;
     protected float m_hasSpeedModifier;
@@ -38,7 +37,6 @@ public class Minion : MonoBehaviour
     {
         m_Animator = GetComponent<CustomAnimation>();
         transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
-        m_WallsLayerMask = LayerMask.GetMask(new[] { "Walls" });
     }
 
     void Update()
