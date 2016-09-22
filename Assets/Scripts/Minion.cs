@@ -25,8 +25,9 @@ public class Minion : MonoBehaviour
     private CustomAnimation m_Animator;
     private int m_WallsLayerMask;
 
+    public Shield m_shield;
 
-    void Start ()
+    void Start()
     {
         m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
@@ -77,27 +78,34 @@ public class Minion : MonoBehaviour
 
                 transform.position += m_WalkDirection * Time.deltaTime;
                 break;
-                
-        }
-	}
 
-    IEnumerator Die ()
+        }
+    }
+
+    IEnumerator Die()
     {
         // m_Animator.PlayAnimation("minion_death", false, false);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
-   
+
     void OnTriggerEnter(Collider a_Collider)
     {
         if (a_Collider.tag == "Tower Projectile")
         {
             if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
             {
-                Destroy(a_Collider.gameObject);
-                m_health -= 1;
-                if (m_health <= 0)
-                    StartCoroutine(Die());
+                if (m_shield)
+                {
+                    m_shield.UpdateHealth(-1);
+                }
+                else
+                {
+                    Destroy(a_Collider.gameObject);
+                    m_health -= 1;
+                    if (m_health <= 0)
+                        StartCoroutine(Die());
+                }
             }
         }
         else if (a_Collider.tag == "Tower" || a_Collider.tag == "Minion")
