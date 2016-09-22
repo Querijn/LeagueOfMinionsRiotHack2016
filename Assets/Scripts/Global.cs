@@ -36,7 +36,7 @@ public class Global : MonoBehaviour {
                 renderer.material.shader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
                 renderer.material.SetColor("_Color", Color.white);
                 renderer.material.SetColor("_OutlineColor", Color.green);
-                renderer.material.SetFloat("_Outline", 0.2f);
+                renderer.material.SetFloat("_Outline", 0.005f);
               
             }
             else if(selected_object)
