@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: c264c060b111f7543924b554f9a29e78
-timeCreated: 1474491828
+guid: 87d814b0e23093847b3fdefbadf5a014
+timeCreated: 1474508168
 licenseType: Free
 ModelImporter:
   serializedVersion: 19
@@ -96,7 +96,7 @@ ModelImporter:
     400086: Spine1
     400088: Staff
     4300000: Model
-    7400000: minion_attack1
+    7400000: Take 001
     9500000: //RootNode
     11100000: //RootNode
     13700000: Model
@@ -120,129 +120,11 @@ ModelImporter:
     animationScaleError: 0.5
     animationWrapMode: 0
     extraExposedTransformPaths: []
-    clipAnimations:
-    - serializedVersion: 16
-      name: minion_attack1
-      takeName: Take 001
-      firstFrame: 0
-      lastFrame: 28
-      wrapMode: 4
-      orientationOffsetY: 0
-      level: 0
-      cycleOffset: 0
-      loop: 0
-      hasAdditiveReferencePose: 0
-      loopTime: 0
-      loopBlend: 0
-      loopBlendOrientation: 0
-      loopBlendPositionY: 0
-      loopBlendPositionXZ: 0
-      keepOriginalOrientation: 0
-      keepOriginalPositionY: 1
-      keepOriginalPositionXZ: 0
-      heightFromFeet: 0
-      mirror: 0
-      bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
-      curves: []
-      events: []
-      transformMask:
-      - path: 
-        weight: 1
-      - path: Buffbone_Glb_Channel_Loc
-        weight: 1
-      - path: Buffbone_Glb_Ground_Loc
-        weight: 1
-      - path: C_Buffbone_Glb_Center_Loc
-        weight: 1
-      - path: C_Buffbone_Glb_Layout_Loc
-        weight: 1
-      - path: C_Buffbone_Glb_Overhead_Loc
-        weight: 1
-      - path: Model
-        weight: 1
-      - path: Root
-        weight: 1
-      - path: Root/Bottom
-        weight: 1
-      - path: Root/Bottom/B_Skirt1
-        weight: 1
-      - path: Root/Bottom/B_Skirt1/B_Skirt2
-        weight: 1
-      - path: Root/Bottom/F_Skirt1
-        weight: 1
-      - path: Root/Bottom/F_Skirt1/F_Skirt2
-        weight: 1
-      - path: Root/Bottom/L_Buffbone_Glb_Foot_Loc
-        weight: 1
-      - path: Root/Bottom/L_Waist1
-        weight: 1
-      - path: Root/Bottom/L_Waist1/L_Skirt1
-        weight: 1
-      - path: Root/Bottom/L_Waist2
-        weight: 1
-      - path: Root/Bottom/L_Waist2/L_Skirt2
-        weight: 1
-      - path: Root/Bottom/R_Buffbone_Glb_Foot_Loc
-        weight: 1
-      - path: Root/Bottom/R_Waist1
-        weight: 1
-      - path: Root/Bottom/R_Waist1/R_Skirt1
-        weight: 1
-      - path: Root/Bottom/R_Waist2
-        weight: 1
-      - path: Root/Bottom/R_Waist2/R_Skirt2
-        weight: 1
-      - path: Root/Spine1
-        weight: 1
-      - path: Root/Spine1/C_Buffbone_Glb_Chest_Loc
-        weight: 1
-      - path: Root/Spine1/Head
-        weight: 1
-      - path: Root/Spine1/Head/C_Buffbone_Glb_Head_Loc
-        weight: 1
-      - path: Root/Spine1/Hood1
-        weight: 1
-      - path: Root/Spine1/Hood1/Hood2
-        weight: 1
-      - path: Root/Spine1/L_Clavicle
-        weight: 1
-      - path: Root/Spine1/L_Clavicle/L_Shoulder
-        weight: 1
-      - path: Root/Spine1/L_Clavicle/L_Shoulder/L_Elbow
-        weight: 1
-      - path: Root/Spine1/L_Clavicle/L_Shoulder/L_Elbow/L_Hand
-        weight: 1
-      - path: Root/Spine1/L_Clavicle/L_Shoulder/L_Elbow/L_Hand/L_Buffbone_Glb_Hand_Loc
-        weight: 1
-      - path: Root/Spine1/L_Clavicle/L_ShoulderPad
-        weight: 1
-      - path: Root/Spine1/R_Clavicle
-        weight: 1
-      - path: Root/Spine1/R_Clavicle/R_Shoulder
-        weight: 1
-      - path: Root/Spine1/R_Clavicle/R_Shoulder/R_Elbow
-        weight: 1
-      - path: Root/Spine1/R_Clavicle/R_Shoulder/R_Elbow/R_Hand
-        weight: 1
-      - path: Root/Spine1/R_Clavicle/R_Shoulder/R_Elbow/R_Hand/R_Buffbone_Glb_Hand_Loc
-        weight: 1
-      - path: Root/Spine1/R_Clavicle/R_ShoulderPad
-        weight: 1
-      - path: Root/Spine1/Scroll
-        weight: 1
-      - path: Root/Spine1/Staff
-        weight: 1
-      - path: Root/Spine1/Staff/Buffbone_Cstm_Weapon_1
-        weight: 1
-      - path: Root/Spine1/Staff/Buffbone_Glb_Weapon_1
-        weight: 1
-      maskType: 0
-      maskSource: {instanceID: 0}
-      additiveReferencePoseFrame: 0
+    clipAnimations: []
     isReadable: 1
   meshes:
     lODScreenPercentages: []
-    globalScale: 0.005
+    globalScale: 1
     meshCompression: 0
     addColliders: 0
     importBlendShapes: 1

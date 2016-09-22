@@ -20,6 +20,7 @@ public class Minion : MonoBehaviour
 
     private GameObject m_DiggingBlock = null;
     private bool m_Digging = false;
+    private bool m_Falling = true;
 
     private CustomAnimation m_Animator;
 
@@ -39,20 +40,18 @@ public class Minion : MonoBehaviour
 
         Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
         RaycastHit t_Hit;
-        bool m_Falling = true;
-        if (Physics.Raycast(t_Ray, out t_Hit))
+        if (Physics.Raycast(t_Ray, out t_Hit, LayerMask.NameToLayer("Walls")))
         {
-            float t_Distance = (t_Hit.transform.position - transform.position).magnitude;
+            float t_Distance = Mathf.Abs((t_Hit.transform.position - transform.position).y);
 
-            if (t_Distance <= 0.66)
+            if (t_Distance >= 0.1)
             {
-                m_Falling = false;
+                if (t_Distance >= m_maximum_falling_distance)
+                {
+                    m_marked_to_die = true;
+                }
+                m_Falling = true;
             }
-            else if (t_Distance >= m_maximum_falling_distance)
-            { 
-                m_marked_to_die = true;
-            }
-            else Debug.Log("Falling " + t_Distance);
         }
 
         if (m_Falling)
@@ -61,7 +60,7 @@ public class Minion : MonoBehaviour
         {
             m_Velocity = Vector3.zero;
             if (m_marked_to_die)
-                Die();
+                StartCoroutine(Die());
         }
 
         transform.position += m_Velocity * Time.deltaTime;
@@ -74,14 +73,21 @@ public class Minion : MonoBehaviour
                 break;
 
             case Action.Walking:
+                m_Animator.PlayAnimation("minion_melee_run", false, false);
+                if (m_Falling)
+                    break;
 
                 transform.position += m_WalkDirection * Time.deltaTime;
-                m_Animator.PlayAnimation("minion_run", false, false);
-
                 break;
 
             case Action.Digging:
-                m_Animator.PlayAnimation("minion_attack1", false, false);
+                if (m_Falling)
+                {
+                    m_Animator.PlayAnimation("minion_melee_run", false, false);
+                    break;
+                }
+
+                m_Animator.PlayAnimation("minion_melee_attack5", false, false);
 
                 if (m_Digging == false)
                 {
@@ -92,8 +98,10 @@ public class Minion : MonoBehaviour
         }
 	}
 
-    void Die ()
+    IEnumerator Die ()
     {
+        // m_Animator.PlayAnimation("minion_death", false, false);
+        yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
     }
 
@@ -105,9 +113,13 @@ public class Minion : MonoBehaviour
         {
             Ray t_Ray = new Ray(transform.position + Vector3.up, Vector3.down);
             RaycastHit t_Hit;
-            if (Physics.Raycast(t_Ray, out t_Hit))
+            if (Physics.Raycast(t_Ray, out t_Hit, LayerMask.NameToLayer("Walls")))
             {
                 m_DiggingBlock = t_Hit.collider.gameObject;
+
+                Vector3 t_Position = transform.position;
+                t_Position.x = t_Hit.transform.position.x;
+                transform.position = t_Position;
             }
         }
         
@@ -126,7 +138,24 @@ public class Minion : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        m_WalkDirection *= -1;
-        transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        if (m_Falling)
+        {
+            m_Falling = false;
+            m_Velocity = Vector3.zero;
+
+            // Hack to get character out of floor
+            Bounds t_WallBounds = other.gameObject.GetComponent<BoxCollider>().bounds;
+            Bounds t_MinionBounds = GetComponent<BoxCollider>().bounds;
+            while(t_WallBounds.Intersects(t_MinionBounds))
+            {
+                transform.position += Vector3.up * 0.01f;
+                t_MinionBounds = GetComponent<BoxCollider>().bounds;
+            }
+        }
+        else
+        {
+            m_WalkDirection *= -1;
+            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        }
     }
 }
