@@ -147,15 +147,6 @@ public class Minion : MonoBehaviour
         {
             m_Falling = false;
             m_Velocity = Vector3.zero;
-
-            // Hack to get character out of floor
-            Bounds t_WallBounds = a_Collider.gameObject.GetComponent<BoxCollider>().bounds;
-            Bounds t_MinionBounds = GetComponent<BoxCollider>().bounds;
-            while(t_WallBounds.Intersects(t_MinionBounds))
-            {
-                transform.position += Vector3.up * 0.01f;
-                t_MinionBounds = GetComponent<BoxCollider>().bounds;
-            }
         }
         else
         {
