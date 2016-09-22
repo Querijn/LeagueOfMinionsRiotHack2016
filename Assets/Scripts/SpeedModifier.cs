@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class KarthusWall : MonoBehaviour
+public class SpeedModifier : MonoBehaviour
 {
     public float percentage;
     public float duration;
+    public int triggerLimit = int.MaxValue;
 
     void OnTriggerEnter(Collider a_Collider)
     {
@@ -12,6 +13,15 @@ public class KarthusWall : MonoBehaviour
         {
             Minion targetMinion = a_Collider.gameObject.GetComponent<Minion>();
             targetMinion.ChangeSpeed(percentage, duration);
+        }
+        triggerLimit -= 1;
+    }
+
+    void Update()
+    {
+        if (triggerLimit <= 0)
+        {
+            Destroy(transform.parent.gameObject);
         }
     }
 }

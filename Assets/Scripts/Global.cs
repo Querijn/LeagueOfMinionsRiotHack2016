@@ -15,12 +15,11 @@ public class Global : MonoBehaviour {
 	void Update () {
 
         //Detect a mousedown on a minion object.
-        //TODO: Filter to only work on minion gameObjects?
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-            if (Physics.Raycast(ray, out hit, 100.0f) && hit.transform.gameObject.name == "Minion")
+            if (Physics.Raycast(ray, out hit, 100.0f) && hit.transform.gameObject.tag == "Minion")
             {
 
                 //Set this object as the selected object
@@ -39,9 +38,12 @@ public class Global : MonoBehaviour {
         //Right-Click to deselect
         if (Input.GetMouseButtonDown(1))
         {
-            //Set normal shader on gameObject's renderer
-            selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
-            selected_object = null;
+            if (selected_object)
+            {
+                //Set normal shader on gameObject's renderer
+                selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
+                selected_object = null;
+            }
         }
 
 	}
