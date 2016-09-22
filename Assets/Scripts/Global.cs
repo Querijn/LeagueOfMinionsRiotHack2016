@@ -9,15 +9,28 @@ public class Global : MonoBehaviour {
     public GameObject snare;
     public GameObject shield;
 
+    public float maxMana;
+    public float manaPerSec;
+    public float manaRegenRate;
+    protected float currentMana;
+
+    void AddMana ()
+    {
+        currentMana += manaPerSec / 5.0f;
+        currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+    }
+
     // Use this for initialization
     void Start () {
-	    
-	}
-	
-	// Update is called once per frame
-	void Update () {
+        InvokeRepeating("AddMana", 1 / 5.0f, 1 / 5.0f);
+    }
 
-        //Detect a mousedown on a minion object.
+	// Update is called once per frame
+	void Update ()
+    {
+        
+        
+         //Detect a mousedown on a minion object.
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;
@@ -25,8 +38,8 @@ public class Global : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask(new[] { "Selectables" })))
             {
 
-                //Deselect previously selected object.
-                if (selected_object) selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
+                if (selected_object)
+                    selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
 
                 //Set this object as the selected object
                 selected_object = hit.transform.gameObject;
@@ -37,16 +50,15 @@ public class Global : MonoBehaviour {
                 renderer.material.SetColor("_Color", Color.white);
                 renderer.material.SetColor("_OutlineColor", Color.green);
                 renderer.material.SetFloat("_Outline", 0.005f);
-              
+
             }
-            else if(selected_object)
+            else if (selected_object)
             {
                 //Set normal shader on gameObject's renderer
                 selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
                 selected_object = null;
             }
         }
-
 
         if (selected_object)
         {

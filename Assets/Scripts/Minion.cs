@@ -12,52 +12,44 @@ public class Minion : MonoBehaviour
     };
 
     public float m_health = 5.0f;
-    public float m_maximum_falling_distance;
     public float m_GroundPlaneHeight = 0.5f;
-    private bool m_marked_to_die;
 
     private Action m_Action;
 
     private Vector3 m_Velocity = Vector3.zero;
     private Vector3 m_WalkDirection = Vector3.right;
 
-    private GameObject m_DiggingBlock = null;
-    private bool m_Digging = false;
     private bool m_Falling = true;
 
     private CustomAnimation m_Animator;
-    private int m_WallsLayerMask;
 
     protected float m_speedModifier;
     protected float m_hasSpeedModifier;
-    protected GameObject m_attackTowerTarget;
+    
 
     // Probably there is a better way to do this
     protected float m_attackNext;
     protected float m_nextAttackDamage;
     protected float m_attackSpeed = 0.933f; // The same lenght as the attack animation
+    protected GameObject m_attackTowerTarget;
 
     void Start()
     {
-        m_marked_to_die = false;
         m_Animator = GetComponent<CustomAnimation>();
         transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
-        m_WallsLayerMask = LayerMask.GetMask(new[] { "Walls" });
     }
 
     void Update()
     {
         m_Falling = (transform.position.y > m_GroundPlaneHeight);
-
         if (m_Falling)
             m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
         else
         {
             m_Velocity = Vector3.zero;
-
-            // Make sure we're always above or on the ground
             Vector3 t_Position = transform.position;
-            if (t_Position.y < m_GroundPlaneHeight) t_Position.y = m_GroundPlaneHeight;
+            if (t_Position.y < m_GroundPlaneHeight)
+                t_Position.y = m_GroundPlaneHeight;
             transform.position = t_Position;
         }
 
@@ -112,8 +104,6 @@ public class Minion : MonoBehaviour
         {
             m_Action = Action.Walking;
         }
-        
-
     }
 
     IEnumerator Die()
