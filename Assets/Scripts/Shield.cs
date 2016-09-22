@@ -3,7 +3,7 @@ using System.Collections;
 
 public class Shield : MonoBehaviour {
 
-    public float m_health;
+    public float m_shieldHealth;
 
     // Use this for initialization
     void Start () {
@@ -17,10 +17,10 @@ public class Shield : MonoBehaviour {
 
     public void UpdateHealth(float variation)
     {
-        m_health += variation;
-        if (m_health <= 0)
+        m_shieldHealth += variation;
+        if (m_shieldHealth <= 0)
         {
-            Destroy(this);
+            Destroy(gameObject);
         }
     }
 }
