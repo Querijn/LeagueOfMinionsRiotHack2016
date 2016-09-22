@@ -49,6 +49,19 @@ public class Tower : MonoBehaviour {
         }
     }
 
+    void OnTriggerExit(Collider other)
+    {
+        Collider collider = other.GetComponent<Collider>();
+        if (collider == null)
+        {
+            return;
+        }
+        if (collider.gameObject == m_latestTarget)
+        {
+            m_latestTarget = null;
+        }
+    }
+
     // Update is called once per frame
     void Update ()
     {

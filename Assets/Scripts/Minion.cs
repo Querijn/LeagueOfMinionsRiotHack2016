@@ -100,11 +100,16 @@ public class Minion : MonoBehaviour
                     StartCoroutine(Die());
             }
         }
-
         else if (a_Collider.tag == "Tower" || a_Collider.tag == "Minion")
         {
 
         }
+        else
+        {
+            m_WalkDirection *= -1;
+            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
+        }
+
         if (m_Falling)
         {
             m_Falling = false;
@@ -119,11 +124,7 @@ public class Minion : MonoBehaviour
                 t_MinionBounds = GetComponent<BoxCollider>().bounds;
             }
         }
-        else
-        {
-            m_WalkDirection *= -1;
-            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
-        }
+        
     }
     
     public float GetHeath()
