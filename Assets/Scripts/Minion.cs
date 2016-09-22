@@ -10,6 +10,7 @@ public class Minion : MonoBehaviour
         Digging
     };
 
+    public float m_health = 5;
     public float m_maximum_falling_distance;
     private bool m_marked_to_die;
 
@@ -136,15 +137,29 @@ public class Minion : MonoBehaviour
         m_Digging = false;
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnTriggerEnter(Collider a_Collider)
     {
+        if (a_Collider.tag == "Tower Projectile")
+        {
+            if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
+            {
+                Destroy(a_Collider.gameObject);
+                m_health -= 1;
+                if (m_health <= 0)
+            }
+        }
+
+        else if (a_Collider.tag == "Tower" || a_Collider.tag == "Minion")
+        {
+
+        }
         if (m_Falling)
         {
             m_Falling = false;
             m_Velocity = Vector3.zero;
 
             // Hack to get character out of floor
-            Bounds t_WallBounds = other.gameObject.GetComponent<BoxCollider>().bounds;
+            Bounds t_WallBounds = a_Collider.gameObject.GetComponent<BoxCollider>().bounds;
             Bounds t_MinionBounds = GetComponent<BoxCollider>().bounds;
             while(t_WallBounds.Intersects(t_MinionBounds))
             {
@@ -157,5 +172,15 @@ public class Minion : MonoBehaviour
             m_WalkDirection *= -1;
             transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
         }
+    }
+    
+    public float GetHeath()
+    {
+        return m_health;
+    }
+
+    public bool IsDead()
+    {
+        return (GetHeath() <= 0.0f);
     }
 }
