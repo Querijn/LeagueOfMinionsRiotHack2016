@@ -123,7 +123,7 @@ public class Minion : MonoBehaviour
             }
         }
 
-        transform.position.Set(transform.position.x, 0.0f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, 0.0f, transform.position.z);
     }
 
     void FixedUpdate()
