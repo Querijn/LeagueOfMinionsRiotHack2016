@@ -18,7 +18,7 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
     private Color pending_color = new Color(0, 100, 0, .5f);
 
     // Use this for initialization
-    void Start ()
+    void Start()
     {
         isOver = false;
         opacityFilter = gameObject.GetComponentInChildren<OpacityFilter>();
@@ -26,9 +26,9 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         if (tooltipHolder)
             tooltipHolder.gameObject.SetActive(false);
     }
-	
-	// Update is called once per frame
-	void Update ()
+
+    // Update is called once per frame
+    void Update()
     {
         if (isOver)
         {
@@ -59,16 +59,16 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
                 Instantiate(action, Global.selected_object.transform.position, Quaternion.identity, Global.selected_object.transform);
             }
         }
-        
+
         //Else, if an object is not selected and we pressed a button or pressed the corresponding key.
-        else if((isOver && Input.GetMouseButtonDown(0)) || Input.GetKeyDown(actionKey))
+        else if ((isOver && Input.GetMouseButtonDown(0)) || Input.GetKeyDown(actionKey))
         {
             Global.PendingAction = action;
         }
 
         //Highlight button if a pending action is set, and it's for this button
         if (Global.PendingAction == action && opacityFilter.GetComponent<RawImage>().color != pending_color)
-           opacityFilter.GetComponent<RawImage>().color = pending_color;
+            opacityFilter.GetComponent<RawImage>().color = pending_color;
 
     }
 
