@@ -61,15 +61,30 @@ public class Team : MonoBehaviour
         for(int i = 0; i < 2; i++)
             m_Targets[i].RemoveAll(x => x.Object == null);
     }
-    
+
     public Vector3 WalkingDirection
     {
         get
         {
-            if(m_Target == null || m_Target.Object == null)
+            if (m_Target == null || m_Target.Object == null)
                 return Vector3.zero;
 
-            return (m_Target.Object.transform.position - transform.position).normalized;
+            Vector3 t_WalkDirection = (m_Target.Object.transform.position - transform.position);
+            t_WalkDirection.Scale(new Vector3(1, 0, 1));
+            return t_WalkDirection.normalized;
+        }
+    }
+
+    public float SqrDistance
+    {
+        get
+        {
+            if (m_Target == null || m_Target.Object == null)
+                return  0.0f;
+
+            Vector3 t_WalkDirection = (m_Target.Object.transform.position - transform.position);
+            t_WalkDirection.Scale(new Vector3(1, 0, 1));
+            return t_WalkDirection.sqrMagnitude;
         }
     }
 }

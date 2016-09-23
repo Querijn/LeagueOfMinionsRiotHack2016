@@ -42,51 +42,43 @@ public class Minion : MonoBehaviour
 
     void Update()
     {
-        m_Falling = (transform.position.y > m_GroundPlaneHeight);
-        if (m_Falling)
-            m_Velocity -= Vector3.up * 9.8f * Time.deltaTime;
-        else
-        {
-            m_Velocity = Vector3.zero;
-            Vector3 t_Position = transform.position;
-            if (t_Position.y < m_GroundPlaneHeight)
-                t_Position.y = m_GroundPlaneHeight;
-            transform.position = t_Position;
-        }
-
         transform.position += m_Velocity * Time.deltaTime;
 
         Vector3 walkSpeed = m_TeamIndication.WalkingDirection;
-        if(walkSpeed.sqrMagnitude != 0)
+        if(walkSpeed.sqrMagnitude > 0.01f)
+        {
             transform.forward = walkSpeed;
 
-        walkSpeed *= 4;
+            walkSpeed *= 4;
 
-        if (m_hasSpeedModifier >= Time.time)
-        {
-            walkSpeed *= m_speedModifier;
+            if (m_hasSpeedModifier >= Time.time)
+            {
+                walkSpeed *= m_speedModifier;
+            }
+
+            switch (m_Action)
+            {
+                case Action.Unknown:
+                    // Determine what to do next
+                    m_Action = Action.Walking;
+                    break;
+
+                case Action.Walking:
+                    m_Animator.PlayAnimation("minion_melee_run", false, false);
+
+                    transform.position += walkSpeed * Time.deltaTime;
+                    break;
+
+                case Action.Atacking:
+                    m_Animator.PlayAnimation("minion_melee_attack5", false, false);
+                    break;
+
+                case Action.Dying:
+                    break;
+            }
         }
 
-        switch (m_Action)
-        {
-            case Action.Unknown:
-                // Determine what to do next
-                m_Action = Action.Walking;
-                break;
-
-            case Action.Walking:
-                m_Animator.PlayAnimation("minion_melee_run", false, false);
-
-                transform.position += walkSpeed * Time.deltaTime;
-                break;
-
-            case Action.Atacking:
-                m_Animator.PlayAnimation("minion_melee_attack5", false, false);
-                break;
-
-            case Action.Dying:
-                break;
-        }
+        transform.position.Set(transform.position.x, 0.0f, transform.position.z);
     }
 
     void FixedUpdate()
@@ -150,18 +142,6 @@ public class Minion : MonoBehaviour
         }
         else if (a_Collider.tag == "Minion" || a_Collider.tag == "Tower")
         {
-            if(a_Collider.tag == "Minion")
-            {
-                Vector3 t_Diff = a_Collider.transform.position - transform.position;
-                t_Diff.y = 0.0f;
-                if (t_Diff.sqrMagnitude < 0.5f * 0.5f)
-                {
-                    t_Diff.Normalize();
-                    transform.position -= t_Diff * 0.5f;
-                    a_Collider.transform.position += t_Diff * 0.5f;
-                }
-            }
-
             Team t_TowerTeam = a_Collider.gameObject.GetComponent<Team>();
             Team t_MyTeam = GetComponent<Team>();
             if (t_TowerTeam == null)
@@ -181,12 +161,12 @@ public class Minion : MonoBehaviour
         if (a_Collider.tag == "Minion")
         {
             Vector3 t_Diff = a_Collider.transform.position - transform.position;
-            t_Diff.y = 0.0f;
+           
             if (t_Diff.sqrMagnitude < 0.5f * 0.5f)
             {
-                t_Diff.Normalize();
-                transform.position -= t_Diff * 0.1f;
-                a_Collider.transform.position += t_Diff * 0.1f;
+                t_Diff.y = 0.0f;
+                transform.position -= t_Diff * 0.01f;
+                a_Collider.transform.position += t_Diff * 0.01f;
             }
         }
     }
