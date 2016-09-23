@@ -6,7 +6,6 @@ public class MinionSpawner : MonoBehaviour {
     public Team.TeamType Team;
     public int MinionLimit;
 
-    public float spawnRate;
     public GameObject minionClass;
     public KeyCode keyToPress;
 

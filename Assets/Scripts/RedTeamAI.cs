@@ -21,7 +21,7 @@ public class RedTeamAI : MonoBehaviour {
 	    if (Time.time >= m_nextSpawn && Global.redMinionsCount < m_maximumMinions)
         {
             SpawnMinion();
-            m_nextSpawn = Time.time + .1f;
+            m_nextSpawn = Time.time + .2f;
         }
 	}
 
