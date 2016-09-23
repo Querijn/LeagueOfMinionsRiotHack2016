@@ -40,6 +40,9 @@ public class Team : MonoBehaviour
     {
         float t_ClosestDistance = 9999999.0f;
         m_Target = null;
+        if (m_Targets[(int)m_Team] == null)
+            return;
+
         for(int i = 0; i < m_Targets[(int)m_Team].Count; i++)
         {
             if(m_Targets[(int)m_Team][i].Object == null)
