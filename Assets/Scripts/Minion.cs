@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Minion : MonoBehaviour
 {
@@ -24,7 +25,6 @@ public class Minion : MonoBehaviour
 
     protected float m_speedModifier;
     protected float m_hasSpeedModifier;
-    
 
     // Probably there is a better way to do this
     protected float m_attackNext;
@@ -34,14 +34,59 @@ public class Minion : MonoBehaviour
 
     private Team m_TeamIndication = null;
 
+    static List<Minion> m_TeamMinions = new List<Minion>();
+
     void Start()
     {
         m_Animator = GetComponent<CustomAnimation>();
         m_TeamIndication = GetComponent<Team>();
+
+        if (m_TeamIndication.m_Team == Team.TeamType.Blue)
+            m_TeamMinions.Add(this);
+    }
+
+    public static Minion Front
+    {
+        get
+        {
+            Minion t_Return = null;
+            float t_X = -9999.0f;
+            for (int i = 0; i < m_TeamMinions.Count; i++)
+            {
+                if (m_TeamMinions[i] == null)
+                    continue;
+
+                if (m_TeamMinions[i].transform.position.x > t_X)
+                {
+                    t_X = m_TeamMinions[i].transform.position.x;
+                    t_Return = m_TeamMinions[i];
+                }
+            }
+            return t_Return;
+        }
+    }
+
+    public static Vector3 Average
+    {
+        get
+        {
+            Vector3 t_Average = Vector3.zero;
+            for (int i = 0; i < m_TeamMinions.Count; i++)
+            {
+                if (m_TeamMinions[i] == null)
+                    continue;
+
+                t_Average += m_TeamMinions[i].transform.position; 
+            }
+
+            return t_Average / m_TeamMinions.Count;
+        }
     }
 
     void Update()
     {
+        m_TeamMinions.RemoveAll(m => m == null);
+
         transform.position += m_Velocity * Time.deltaTime;
 
         Vector3 walkSpeed = m_TeamIndication.WalkingDirection;

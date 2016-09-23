@@ -99,35 +99,50 @@ public class Global : MonoBehaviour {
             }
         }
 
-        // Moving the Camera
-        Vector2 mouseEdge = MouseScreenEdge(20);
-
-        if (!(Mathf.Approximately(mouseEdge.x, 0f))) 
+        Minion t_FrontMinion = Minion.Front;
+        if(t_FrontMinion != null)
         {
-            //Move your camera depending on the sign of mouse.Edge.x
-            Vector3 position = new Vector3(10 * Time.deltaTime, 0, 0);
-            if (mouseEdge.x < 0)
-                position.x *= -1;
+            Vector3 t_Average = Minion.Average;
+            t_Average += t_FrontMinion.transform.position;
+            t_Average /= 2.0f;
 
-            if (mouseEdge.x < 0 && transform.position.x >= minimunLeftScroll || mouseEdge.x > 0 && transform.position.x <= maximumLeftScroll)
-            {
-                transform.Translate(position);
+            float t_X = Mathf.Clamp(t_FrontMinion.transform.position.x, minimunLeftScroll, maximumLeftScroll);
 
-                GameObject bg2 = GameObject.Find("NotThatFar");
-                if (bg2)
-                {
-                    position.x *= -0.1f;
-                    bg2.transform.Translate(position);
-                }
+            Vector3 t_TargetPosition = new Vector3(t_X, transform.position.y, transform.position.z);
+            Vector3 t_Diff = t_TargetPosition - transform.position;
 
-                GameObject bg = GameObject.Find("TooFarBg");
-                if (bg)
-                {
-                    position.x *= 0.1f;
-                    bg.transform.Translate(position);
-                }
-            }
+            transform.position += t_Diff * Time.deltaTime;
         }
+
+        // Moving the Camera
+        //Vector2 mouseEdge = MouseScreenEdge(20);
+
+        //if (!(Mathf.Approximately(mouseEdge.x, 0f))) 
+        //{
+        //    //Move your camera depending on the sign of mouse.Edge.x
+        //    Vector3 position = new Vector3(10 * Time.deltaTime, 0, 0);
+        //    if (mouseEdge.x < 0)
+        //        position.x *= -1;
+
+        //    if (mouseEdge.x < 0 && transform.position.x >= minimunLeftScroll || mouseEdge.x > 0 && transform.position.x <= maximumLeftScroll)
+        //    {
+        //        transform.Translate(position);
+
+        //        GameObject bg2 = GameObject.Find("NotThatFar");
+        //        if (bg2)
+        //        {
+        //            position.x *= -0.1f;
+        //            bg2.transform.Translate(position);
+        //        }
+
+        //        GameObject bg = GameObject.Find("TooFarBg");
+        //        if (bg)
+        //        {
+        //            position.x *= 0.1f;
+        //            bg.transform.Translate(position);
+        //        }
+        //    }
+        //}
 
     }
 
