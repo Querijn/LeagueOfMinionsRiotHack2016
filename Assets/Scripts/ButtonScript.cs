@@ -5,10 +5,17 @@ using UnityEngine.UI;
 public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public GameObject action;
+    public KeyCode actionKey;
 
     protected bool isOver;
     protected OpacityFilter opacityFilter;
     protected Tooltip tooltipHolder;
+
+    //Colors.
+    private Color hover_color = new Color(0, 0, 0, 0.2f);
+    private Color press_down_color = new Color(0, 0, 0, 0.4f);
+    private Color normal_color = new Color(0, 0, 0, 0f);
+    private Color pending_color = new Color(0, 100, 0, .5f);
 
     // Use this for initialization
     void Start ()
@@ -27,26 +34,41 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
         {
             if (Input.GetMouseButton(0))
             {
-                opacityFilter.GetComponent<RawImage>().color = new Color(0, 0, 0, 0.4f);
+                opacityFilter.GetComponent<RawImage>().color = press_down_color;
             }
             else
             {
-                opacityFilter.GetComponent<RawImage>().color = new Color(0, 0, 0, 0f);
+                opacityFilter.GetComponent<RawImage>().color = hover_color;
                 if (tooltipHolder)
                     tooltipHolder.gameObject.SetActive(true);
             }
         }
         else
         {
-            opacityFilter.GetComponent<RawImage>().color = new Color(0, 0, 0, 0.2f);
+            opacityFilter.GetComponent<RawImage>().color = normal_color;
             if (tooltipHolder)
                 tooltipHolder.gameObject.SetActive(false);
         }
 
-        if (isOver && Input.GetMouseButtonDown(0) && Global.selected_object)
+        //Apply the spell if:
+        //A minion is selected, and we either pressed a button or we pressed the corresponding (1-5) key
+        if (Global.selected_object)
         {
-            Instantiate(action, Global.selected_object.transform.position, Quaternion.identity, Global.selected_object.transform);
+            if ((isOver && Input.GetMouseButtonDown(0)) || Input.GetKeyDown(actionKey))
+            {
+                Instantiate(action, Global.selected_object.transform.position, Quaternion.identity, Global.selected_object.transform);
+            }
         }
+        
+        //Else, if an object is not selected and we pressed a button or pressed the corresponding key.
+        else if((isOver && Input.GetMouseButtonDown(0)) || Input.GetKeyDown(actionKey))
+        {
+            Global.PendingAction = action;
+        }
+
+        //Highlight button if a pending action is set, and it's for this button
+        if (Global.PendingAction == action && opacityFilter.GetComponent<RawImage>().color != pending_color)
+           opacityFilter.GetComponent<RawImage>().color = pending_color;
 
     }
 
