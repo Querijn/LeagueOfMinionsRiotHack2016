@@ -71,7 +71,7 @@ public class Global : MonoBehaviour {
 
                 //Remove outline shader from previously selected minion.
                 if (selected_object)
-                    selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
+                    selected_object.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.white);
 
                 //Set this object as the selected object
                 selected_object = hit.transform.gameObject;
@@ -94,7 +94,7 @@ public class Global : MonoBehaviour {
             else if (selected_object)
             {
                 //Set normal shader on gameObject's renderer
-                selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
+                selected_object.GetComponentInChildren<Renderer>().material.SetColor("_Color", Color.white);
                 selected_object = null;
             }
         }

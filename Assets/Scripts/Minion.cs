@@ -210,10 +210,23 @@ public class Minion : MonoBehaviour
             if (t_Diff.sqrMagnitude < 0.5f * 0.5f)
             {
                 t_Diff.y = 0.0f;
-                transform.position -= t_Diff * 0.01f;
-                a_Collider.transform.position += t_Diff * 0.01f;
+                transform.position -= t_Diff * 0.05f;
+                a_Collider.transform.position += t_Diff * 0.05f;
             }
         }
+    }
+
+    IEnumerator StopAttacking()
+    {
+        yield return new WaitForSeconds(0.6f);
+
+        m_Action = Action.Walking;
+    }
+
+    void OnTriggerExit(Collider a_Collider)
+    {
+        if ((a_Collider.tag == "Minion" || a_Collider.tag == "Tower") && m_Action == Action.Atacking)
+            StartCoroutine(StopAttacking());
     }
 
     void AttackTarget(GameObject target)
