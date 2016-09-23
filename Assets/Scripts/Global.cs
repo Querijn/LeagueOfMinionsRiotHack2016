@@ -14,6 +14,9 @@ public class Global : MonoBehaviour {
     public float manaRegenRate;
     protected float currentMana;
 
+    public float minimunLeftScroll;
+    public float maximumLeftScroll;
+
     void AddMana ()
     {
         currentMana += manaPerSec / 5.0f;
@@ -93,23 +96,24 @@ public class Global : MonoBehaviour {
             if (mouseEdge.x < 0)
                 position.x *= -1;
 
-            transform.Translate(position);
-
-            GameObject bg2 = GameObject.Find("NotThatFar");
-            if (bg2)
+            if (mouseEdge.x < 0 && transform.position.x >= minimunLeftScroll || mouseEdge.x > 0 && transform.position.x <= maximumLeftScroll)
             {
-                position.x *= -0.1f;
-                bg2.transform.Translate(position);
-            }
+                transform.Translate(position);
 
-            GameObject bg = GameObject.Find("TooFarBg");
-            if (bg)
-            {
-                position.x *= 0.1f;
-                bg.transform.Translate(position);
-            }
+                GameObject bg2 = GameObject.Find("NotThatFar");
+                if (bg2)
+                {
+                    position.x *= -0.1f;
+                    bg2.transform.Translate(position);
+                }
 
-            
+                GameObject bg = GameObject.Find("TooFarBg");
+                if (bg)
+                {
+                    position.x *= 0.1f;
+                    bg.transform.Translate(position);
+                }
+            }
         }
 
     }
