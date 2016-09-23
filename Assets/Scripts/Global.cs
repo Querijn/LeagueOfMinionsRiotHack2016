@@ -26,6 +26,10 @@ public class Global : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InvokeRepeating("AddMana", 1 / 5.0f, 1 / 5.0f);
+
+        //Start playing global sound
+        FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("game_music");
+
     }
 
 	// Update is called once per frame

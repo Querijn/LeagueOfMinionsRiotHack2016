@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class UI : MonoBehaviour {
 
     public Text minionsText;
-    public float totalMinions;
+    protected float totalMinions;
 
     public Text timeText;
     public float timeLeft;
@@ -13,6 +13,11 @@ public class UI : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InvokeRepeating("UpdateTime", 1, 1);
+        GameObject spawner = GameObject.Find("MinionSpawner");
+        if (spawner)
+            totalMinions = spawner.GetComponent<MinionSpawner>().totalMinions;
+        else
+            totalMinions = 99;
     }
 	
 	// Update is called once per frame

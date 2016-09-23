@@ -83,6 +83,8 @@ public class Tower : MonoBehaviour {
             projectile.SetTarget(target);
             m_latestTarget = target;
 
+            FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("tower_shot_1");
+
             //Debug.Log("Spawning a projectile, target: '" + target.name + "'");
         }
     }
