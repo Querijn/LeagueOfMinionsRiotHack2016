@@ -32,9 +32,12 @@ public class Minion : MonoBehaviour
     protected float m_attackSpeed = 0.933f; // The same lenght as the attack animation
     protected GameObject m_attackTowerTarget;
 
+    private Team m_TeamIndication = null;
+
     void Start()
     {
         m_Animator = GetComponent<CustomAnimation>();
+        m_TeamIndication = GetComponent<Team>();
     }
 
     void Update()
@@ -53,7 +56,7 @@ public class Minion : MonoBehaviour
 
         transform.position += m_Velocity * Time.deltaTime;
 
-        Vector3 walkSpeed = Path.GetWalkDirection(transform);
+        Vector3 walkSpeed = m_TeamIndication.WalkingDirection;
         if(walkSpeed.sqrMagnitude != 0)
             transform.forward = walkSpeed;
         if (m_hasSpeedModifier >= Time.time)
@@ -131,13 +134,14 @@ public class Minion : MonoBehaviour
             m_attackNext = Time.time + m_attackSpeed;
             m_attackTowerTarget = a_Collider.gameObject;
         }
-        else if (a_Collider.tag == "Minion" || a_Collider.tag == "Minion Ignorable")
+        else if (a_Collider.tag == "Minion")
         {
-        }
-        else if (m_Falling)
-        {
-            m_Falling = false;
-            m_Velocity = Vector3.zero;
+            if(a_Collider.gameObject.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team)
+            {
+                m_Action = Action.Atacking;
+                m_attackNext = Time.time + m_attackSpeed;
+                m_attackTowerTarget = a_Collider.gameObject;
+            }
         }
     }
     

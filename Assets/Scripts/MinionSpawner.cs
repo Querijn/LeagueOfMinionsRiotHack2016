@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MinionSpawner : MonoBehaviour {
 
+    public Team.TeamType Team;
     public float totalMinions;
     public float spawnRate;
     public float minionsLeft;
