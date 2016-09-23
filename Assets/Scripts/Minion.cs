@@ -17,7 +17,6 @@ public class Minion : MonoBehaviour
     private Action m_Action;
 
     private Vector3 m_Velocity = Vector3.zero;
-    private Vector3 m_WalkDirection = Vector3.right;
 
     private bool m_Falling = true;
 
@@ -36,7 +35,6 @@ public class Minion : MonoBehaviour
     void Start()
     {
         m_Animator = GetComponent<CustomAnimation>();
-        transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
     }
 
     void Update()
@@ -55,7 +53,9 @@ public class Minion : MonoBehaviour
 
         transform.position += m_Velocity * Time.deltaTime;
 
-        Vector3 walkSpeed = m_WalkDirection;
+        Vector3 walkSpeed = Path.GetWalkDirection(transform);
+        if(walkSpeed.sqrMagnitude != 0)
+            transform.forward = walkSpeed;
         if (m_hasSpeedModifier >= Time.time)
         {
             walkSpeed *= m_speedModifier;
@@ -139,13 +139,6 @@ public class Minion : MonoBehaviour
             m_Falling = false;
             m_Velocity = Vector3.zero;
         }
-        else
-        {
-            m_WalkDirection *= -1;
-            transform.localRotation = Quaternion.AngleAxis(m_WalkDirection.x > 0.0f ? 90.0f : 270.0f, Vector3.up);
-        }
-
-
     }
     
     void AttackTarget(GameObject target)
