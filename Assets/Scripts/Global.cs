@@ -93,29 +93,6 @@ public class Global : MonoBehaviour {
             }
         }
 
-        if (selected_object)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                Snare has_snare = selected_object.GetComponent<Snare>();
-                if (!has_snare)
-                    GameObject.Instantiate(snare, selected_object.transform.position, Quaternion.identity, selected_object.transform);
-            }
-            else if (Input.GetKey(KeyCode.LeftControl))
-            {
-                Shield has_shield = selected_object.GetComponent<Shield>();
-                if (!has_shield)
-                    GameObject.Instantiate(shield, selected_object.transform.position, Quaternion.identity, selected_object.transform);
-            }
-            else if (Input.GetKey(KeyCode.LeftAlt))
-            {
-                Destroy(selected_object);
-            }
-        }
-
-
-
-
         // Moving the Camera
         Vector2 mouseEdge = MouseScreenEdge(20);
 
