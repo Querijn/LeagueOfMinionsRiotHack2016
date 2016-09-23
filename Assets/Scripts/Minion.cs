@@ -59,6 +59,9 @@ public class Minion : MonoBehaviour
         Vector3 walkSpeed = m_TeamIndication.WalkingDirection;
         if(walkSpeed.sqrMagnitude != 0)
             transform.forward = walkSpeed;
+
+        walkSpeed *= 5;
+
         if (m_hasSpeedModifier >= Time.time)
         {
             walkSpeed *= m_speedModifier;
@@ -143,11 +146,26 @@ public class Minion : MonoBehaviour
             if (t_TowerTeam == null)
                 t_TowerTeam = a_Collider.transform.parent.GetComponent<Team>();
 
-            if (a_Collider.gameObject.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team)
+            if (t_TowerTeam && t_MyTeam && t_TowerTeam.m_Team != t_MyTeam.m_Team)
             {
                 m_Action = Action.Atacking;
                 m_attackNext = Time.time + m_attackSpeed;
                 m_attackTowerTarget = a_Collider.gameObject;
+            }
+        }
+    }
+
+    void OnTriggerStay(Collider a_Collider)
+    {
+        if (a_Collider.tag == "Minion")
+        {
+            Vector3 t_Diff = a_Collider.transform.position - transform.position;
+            t_Diff.y = 0.0f;
+            if (t_Diff.sqrMagnitude< 0.5f * 0.5f)
+            {
+                t_Diff.Normalize();
+                transform.position -= t_Diff* 0.1f;
+                a_Collider.transform.position += t_Diff* 0.1f;
             }
         }
     }

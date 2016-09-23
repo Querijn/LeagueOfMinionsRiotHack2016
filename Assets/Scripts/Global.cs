@@ -5,6 +5,10 @@ public class Global : MonoBehaviour {
 
     //Record which game object is currently selected.
     static public GameObject selected_object;
+    static public KeyCode spawnKey = KeyCode.A;
+
+    static public float redMinionsCount;
+    static public float blueMinionsCount;
 
     public GameObject snare;
     public GameObject shield;
@@ -25,6 +29,7 @@ public class Global : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        spawnKey = (KeyCode)((int)Random.Range(97.0f, 122.0f));
         InvokeRepeating("AddMana", 1 / 5.0f, 1 / 5.0f);
 
         //Start playing global sound
@@ -35,9 +40,20 @@ public class Global : MonoBehaviour {
 	// Update is called once per frame
 	void Update ()
     {
-        
-        
-         //Detect a mousedown on a minion object.
+        redMinionsCount = 0;
+        blueMinionsCount = 0;
+
+        foreach (GameObject element in GameObject.FindGameObjectsWithTag("Minion"))
+        {
+            Team t_MyTeam = element.GetComponent<Team>();
+            if (t_MyTeam.m_Team == Team.TeamType.Red)
+                redMinionsCount++;
+            else
+                blueMinionsCount++;
+        }
+
+
+        //Detect a mousedown on a minion object.
         if (Input.GetMouseButtonDown(0))
         {
             RaycastHit hit;

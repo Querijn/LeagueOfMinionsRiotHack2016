@@ -10,6 +10,8 @@ public class UI : MonoBehaviour {
     public Text timeText;
     public float timeLeft;
 
+    public Text spawnKey;
+
     // Use this for initialization
     void Start () {
         InvokeRepeating("UpdateTime", 1, 1);
@@ -22,8 +24,11 @@ public class UI : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (spawnKey)
+            spawnKey.text = Global.spawnKey.ToString();
+
         if (minionsText != null)
-            minionsText.text = GameObject.FindGameObjectsWithTag("Minion").Length + " / " + totalMinions;
+            minionsText.text = Global.blueMinionsCount+ " / " + totalMinions;
 
         int minutesLeft = (int)(timeLeft / 60.0f);
         int secondsLeft = (int)(timeLeft % 60);
