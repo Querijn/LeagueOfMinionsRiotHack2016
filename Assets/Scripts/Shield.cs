@@ -11,7 +11,11 @@ public class Shield : MonoBehaviour {
         if(transform.parent && transform.parent.GetComponentsInChildren<Shield>().Length >= 2)
         {
             Destroy(gameObject);
+            return;
         }
+
+        //Start playing global sound
+        FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("barrier");
     }
 	
 	// Update is called once per frame
