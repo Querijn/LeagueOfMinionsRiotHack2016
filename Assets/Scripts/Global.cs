@@ -78,10 +78,10 @@ public class Global : MonoBehaviour {
 
                 //Set the shader
                 Renderer renderer = selected_object.GetComponentInChildren<Renderer>();
-                renderer.material.shader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
-                renderer.material.SetColor("_Color", Color.white);
-                renderer.material.SetColor("_OutlineColor", Color.green);
-                renderer.material.SetFloat("_Outline", 0.005f);
+                //renderer.material.shader = Shader.Find("Outlined/Silhouetted Bumped Diffuse");
+                renderer.material.SetColor("_Color", Color.green);
+               // renderer.material.SetColor("_OutlineColor", Color.green);
+               // renderer.material.SetFloat("_Outline", 0.005f);
 
                 //Apply a spell action if one is present.
                 if (PendingAction)
