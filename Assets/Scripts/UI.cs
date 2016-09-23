@@ -19,7 +19,7 @@ public class UI : MonoBehaviour {
         if (spawner)
             totalMinions = spawner.GetComponent<MinionSpawner>().MinionLimit;
         else
-            totalMinions = 99;
+            totalMinions = 20;
     }
 	
 	// Update is called once per frame
