@@ -89,15 +89,27 @@ public class Global : MonoBehaviour {
         if (!(Mathf.Approximately(mouseEdge.x, 0f))) 
         {
             //Move your camera depending on the sign of mouse.Edge.x
-
+            Vector3 position = new Vector3(10 * Time.deltaTime, 0, 0);
             if (mouseEdge.x < 0)
+                position.x *= -1;
+
+            transform.Translate(position);
+
+            GameObject bg2 = GameObject.Find("NotThatFar");
+            if (bg2)
             {
-                transform.Translate(new Vector3(-10 * Time.deltaTime, 0, 0));
+                position.x *= -0.1f;
+                bg2.transform.Translate(position);
             }
-            else
+
+            GameObject bg = GameObject.Find("TooFarBg");
+            if (bg)
             {
-                transform.Translate(new Vector3(10 * Time.deltaTime, 0, 0));    
+                position.x *= 0.1f;
+                bg.transform.Translate(position);
             }
+
+            
         }
 
     }

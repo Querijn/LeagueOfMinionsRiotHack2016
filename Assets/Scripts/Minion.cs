@@ -164,7 +164,7 @@ public class Minion : MonoBehaviour
 
     public bool IsDead()
     {
-        return (m_health <= 0.0f);
+        return (m_Action != Action.Atacking && m_health <= 0.0f);
     }
 
     public void ChangeSpeed(Vector2 packed)
