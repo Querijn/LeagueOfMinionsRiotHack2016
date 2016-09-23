@@ -60,7 +60,7 @@ public class Minion : MonoBehaviour
         if(walkSpeed.sqrMagnitude != 0)
             transform.forward = walkSpeed;
 
-        walkSpeed *= 5;
+        walkSpeed *= 4;
 
         if (m_hasSpeedModifier >= Time.time)
         {
@@ -126,7 +126,6 @@ public class Minion : MonoBehaviour
                 Global.blueMinionsDead++;
             else
                 Global.redMinionsDead++;
-
         }
 
     }

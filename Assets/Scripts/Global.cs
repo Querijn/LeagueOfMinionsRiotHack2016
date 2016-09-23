@@ -10,7 +10,8 @@ public class Global : MonoBehaviour {
     static public float redMinionsCount;
     static public float blueMinionsCount;
     static public float blueMinionsDead;
-    static public float redMinionsDead; 
+    static public float redMinionsDead;
+    static public float blueMinionsSpawnedTotal;
 
     public GameObject snare;
     public GameObject shield;
@@ -29,8 +30,6 @@ public class Global : MonoBehaviour {
     {
         currentMana += manaPerSec / 5.0f;
         currentMana = Mathf.Clamp(currentMana, 0, maxMana);
-        blueMinionsDead = 0;
-        redMinionsDead = 0;
     }
 
     // Use this for initialization
@@ -41,6 +40,9 @@ public class Global : MonoBehaviour {
         //Start playing global sound
         FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("game_music");
 
+        blueMinionsDead = 0;
+        redMinionsDead = 0;
+        blueMinionsSpawnedTotal = 0;
     }
 
 	// Update is called once per frame

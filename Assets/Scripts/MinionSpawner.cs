@@ -20,6 +20,7 @@ public class MinionSpawner : MonoBehaviour {
         {
             Spawn();
             Global.spawnKey = (KeyCode)((int)Random.Range(97.0f, 122.0f));
+            Global.blueMinionsSpawnedTotal++;
         }
     }
 
