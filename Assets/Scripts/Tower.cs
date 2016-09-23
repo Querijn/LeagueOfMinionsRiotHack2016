@@ -73,6 +73,9 @@ public class Tower : MonoBehaviour {
 
     void Shoot(GameObject target)
     {
+        if (target == null || target.GetComponent<Minion>().IsDead())
+            return;
+
         if (m_isShooting == false)
         {
             m_isShooting = true;
