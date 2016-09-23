@@ -141,6 +141,18 @@ public class Minion : MonoBehaviour
         }
         else if (a_Collider.tag == "Minion" || a_Collider.tag == "Tower")
         {
+            if(a_Collider.tag == "Minion")
+            {
+                Vector3 t_Diff = a_Collider.transform.position - transform.position;
+                t_Diff.y = 0.0f;
+                if (t_Diff.sqrMagnitude < 0.5f * 0.5f)
+                {
+                    t_Diff.Normalize();
+                    transform.position -= t_Diff * 0.5f;
+                    a_Collider.transform.position += t_Diff * 0.5f;
+                }
+            }
+
             Team t_TowerTeam = a_Collider.gameObject.GetComponent<Team>();
             Team t_MyTeam = GetComponent<Team>();
             if (t_TowerTeam == null)
@@ -161,15 +173,15 @@ public class Minion : MonoBehaviour
         {
             Vector3 t_Diff = a_Collider.transform.position - transform.position;
             t_Diff.y = 0.0f;
-            if (t_Diff.sqrMagnitude< 0.5f * 0.5f)
+            if (t_Diff.sqrMagnitude < 0.5f * 0.5f)
             {
                 t_Diff.Normalize();
-                transform.position -= t_Diff* 0.1f;
-                a_Collider.transform.position += t_Diff* 0.1f;
+                transform.position -= t_Diff * 0.1f;
+                a_Collider.transform.position += t_Diff * 0.1f;
             }
         }
     }
-    
+
     void AttackTarget(GameObject target)
     {
         m_attackNext = Time.time + m_attackSpeed;
