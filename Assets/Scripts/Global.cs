@@ -9,6 +9,8 @@ public class Global : MonoBehaviour {
 
     static public float redMinionsCount;
     static public float blueMinionsCount;
+    static public float blueMinionsDead;
+    static public float redMinionsDead; 
 
     public GameObject snare;
     public GameObject shield;
@@ -27,6 +29,8 @@ public class Global : MonoBehaviour {
     {
         currentMana += manaPerSec / 5.0f;
         currentMana = Mathf.Clamp(currentMana, 0, maxMana);
+        blueMinionsDead = 0;
+        redMinionsDead = 0;
     }
 
     // Use this for initialization

@@ -119,12 +119,15 @@ public class Minion : MonoBehaviour
         m_Animator.PlayAnimation("minion_melee_death3", true, true);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
+        Team t_MyTeam = GetComponent<Team>();
+        if (t_MyTeam)
+        {
+            if (t_MyTeam.m_Team == Team.TeamType.Blue)
+                Global.blueMinionsDead++;
+            else
+                Global.redMinionsDead++;
 
-        //Get the corresponding spawner
-        if (name.ToLower().Contains("blue"))
-            GameObject.Find("Blue Spawner").GetComponent<MinionSpawner>().CurrentMinionCount--;
-        else if (name.ToLower().Contains("red"))
-            GameObject.Find("Red Spawner").GetComponent<MinionSpawner>().CurrentMinionCount--;
+        }
 
     }
 

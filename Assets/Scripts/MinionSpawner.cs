@@ -5,7 +5,6 @@ public class MinionSpawner : MonoBehaviour {
 
     public Team.TeamType Team;
     public int MinionLimit;
-    public int CurrentMinionCount;
 
     public float spawnRate;
     public GameObject minionClass;
@@ -13,17 +12,16 @@ public class MinionSpawner : MonoBehaviour {
 
     // Use this for initialization
     void Start (){}
-	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKeyDown(Global.spawnKey) && CurrentMinionCount < MinionLimit)
+
+    // Update is called once per frame
+    void Update()
+    {
+        if (Input.GetKeyDown(Global.spawnKey) && Global.blueMinionsCount < MinionLimit)
         {
-            CurrentMinionCount++;
             Spawn();
             Global.spawnKey = (KeyCode)((int)Random.Range(97.0f, 122.0f));
         }
-	
-	}
+    }
 
     public void Spawn ()
     {

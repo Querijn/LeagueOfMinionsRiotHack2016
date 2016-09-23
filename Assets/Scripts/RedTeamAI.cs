@@ -3,7 +3,7 @@ using System.Collections;
 
 public class RedTeamAI : MonoBehaviour {
 
-    MinionSpawner m_spawner;
+    static MinionSpawner m_spawner;
     protected float m_nextSpawn;
     public float m_maximumMinions;
 
@@ -25,7 +25,7 @@ public class RedTeamAI : MonoBehaviour {
         }
 	}
 
-    void SpawnMinion()
+    public static void SpawnMinion()
     {
         m_spawner.Spawn();
     }

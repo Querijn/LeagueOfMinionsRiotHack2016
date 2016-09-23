@@ -29,7 +29,7 @@ public class SoundManager : MonoBehaviour
         }
 
         //Destroy the sound-playing gameObject once it's finished playing.
-        if (t_GameObject && t_AudioSource)
+        if (t_GameObject && t_AudioSource && t_AudioSource.clip)
             Destroy(t_GameObject, t_AudioSource.clip.length);
 
         t_AudioSource.Play();
