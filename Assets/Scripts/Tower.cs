@@ -30,6 +30,8 @@ public class Tower : MonoBehaviour {
     void OnTriggerStay(Collider other)
     {
         Collider collider = other.GetComponent<Collider>();
+        Team my_team = GetComponent<Team>();
+
         if (collider == null)
         {
             return;
@@ -43,7 +45,7 @@ public class Tower : MonoBehaviour {
                 Shoot(m_latestTarget.gameObject);
         }
 
-        if (collider.tag == "Minion" && collider.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team && m_isShooting == false)
+        if (collider.tag == "Minion" && collider.GetComponent<Team>().m_Team != my_team.m_Team && m_isShooting == false)
         {
             Shoot(other.gameObject);
         }
