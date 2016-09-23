@@ -21,7 +21,7 @@ public class Tower : MonoBehaviour {
     {
         Collider collider = other.GetComponent<Collider>();
         
-        if (collider && collider.tag == "Minion" && m_isShooting == false)
+        if (collider && collider.tag == "Minion" && other.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team && m_isShooting == false)
         {
             Shoot(other.gameObject);
         }
