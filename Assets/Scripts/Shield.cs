@@ -24,6 +24,7 @@ public class Shield : MonoBehaviour {
             if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject.transform.parent.gameObject))
             {
                 UpdateHealth(-1);
+                Destroy(a_Collider);
             }
         }
     }

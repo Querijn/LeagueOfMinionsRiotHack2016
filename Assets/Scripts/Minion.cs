@@ -126,9 +126,9 @@ public class Minion : MonoBehaviour
             {
                 Shield has_shield = gameObject.GetComponent<Shield>();
                 if (has_shield)
-                {
+                { 
                     has_shield.UpdateHealth(-1);
-                } 
+                }
                 else
                 {
                     UpdateHealth(-1);
