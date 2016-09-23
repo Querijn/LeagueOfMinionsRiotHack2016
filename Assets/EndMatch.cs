@@ -21,6 +21,7 @@ public class EndMatch : MonoBehaviour {
         PlayerPrefs.SetFloat("Blue Minions Killed", Global.blueMinionsDead);
         PlayerPrefs.SetFloat("Blue Minions Spawned", Global.blueMinionsSpawnedTotal);
         PlayerPrefs.SetFloat("Won Game", win);
+        PlayerPrefs.SetFloat("Total Time Taken", UI.timeLeft);
 
         SceneManager.LoadScene("____ENDGAME");
     }

@@ -8,7 +8,7 @@ public class UI : MonoBehaviour {
     protected float totalMinions;
 
     public Text timeText;
-    public float timeLeft;
+    static public float timeLeft = 0;
 
     public Text spawnKey;
 
@@ -51,7 +51,7 @@ public class UI : MonoBehaviour {
 
     void UpdateTime ()
     {
-        timeLeft -= 1.0f;
+        timeLeft += 1.0f;
         timeLeft = Mathf.Clamp(timeLeft, 0, float.PositiveInfinity);
     }
 }
