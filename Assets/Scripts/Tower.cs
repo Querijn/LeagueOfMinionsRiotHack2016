@@ -77,7 +77,9 @@ public class Tower : MonoBehaviour {
         {
             m_isShooting = true;
             m_nextFire = Time.time + m_firerate;
-            Vector3 projectile_position = new Vector3(transform.position.x -0.330f, transform.position.y + 1.745f, 0);
+
+            Vector3 projectile_position = transform.FindChild("SRUAP_OrderTurret1_Idle1").FindChild("Buffbone_Glb_Channel_Loc").position;
+
             TowerProjectile projectile = (TowerProjectile)Instantiate(m_projectile, projectile_position, Quaternion.identity);
             projectile.transform.forward = target.transform.position - projectile.transform.position;
             projectile.SetTarget(target);
