@@ -119,6 +119,13 @@ public class Minion : MonoBehaviour
         m_Animator.PlayAnimation("minion_melee_death3", true, true);
         yield return new WaitForSeconds(0.5f);
         Destroy(gameObject);
+
+        //Get the corresponding spawner
+        if (name.ToLower().Contains("blue"))
+            GameObject.Find("Blue Spawner").GetComponent<MinionSpawner>().CurrentMinionCount--;
+        else if (name.ToLower().Contains("red"))
+            GameObject.Find("Red Spawner").GetComponent<MinionSpawner>().CurrentMinionCount--;
+
     }
 
     void OnTriggerEnter(Collider a_Collider)

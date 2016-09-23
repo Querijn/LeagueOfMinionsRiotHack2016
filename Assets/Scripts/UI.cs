@@ -15,9 +15,9 @@ public class UI : MonoBehaviour {
     // Use this for initialization
     void Start () {
         InvokeRepeating("UpdateTime", 1, 1);
-        GameObject spawner = GameObject.Find("MinionSpawner");
+        GameObject spawner = GameObject.Find("Blue Spawner");
         if (spawner)
-            totalMinions = spawner.GetComponent<MinionSpawner>().totalMinions;
+            totalMinions = spawner.GetComponent<MinionSpawner>().MinionLimit;
         else
             totalMinions = 99;
     }
