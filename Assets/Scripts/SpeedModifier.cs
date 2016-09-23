@@ -13,6 +13,11 @@ public class SpeedModifier : MonoBehaviour
     void Start()
     {
         endOfLife = Time.time + lifespan;
+        Transform tmp = gameObject.transform.parent.gameObject.transform.parent;
+        if (tmp)
+        {
+            gameObject.transform.parent.gameObject.transform.parent = null;
+        }
     }
 
     void OnTriggerEnter(Collider a_Collider)

@@ -124,8 +124,16 @@ public class Minion : MonoBehaviour
         {
             if (a_Collider.gameObject.GetComponent<TowerProjectile>().IsTarget(gameObject))
             {
+                Shield has_shield = gameObject.GetComponent<Shield>();
+                if (has_shield)
+                {
+                    has_shield.UpdateHealth(-1);
+                } 
+                else
+                {
+                    UpdateHealth(-1);
+                }
                 Destroy(a_Collider.gameObject);
-                UpdateHealth(-1);
             }
         }
         else if (a_Collider.tag == "Tower")

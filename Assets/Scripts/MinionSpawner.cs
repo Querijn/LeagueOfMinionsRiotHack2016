@@ -8,6 +8,7 @@ public class MinionSpawner : MonoBehaviour {
     public float spawnRate;
     public float minionsLeft;
     public GameObject minionClass;
+    public KeyCode keyToPress;
 
     void SpawnMinion()
     {
@@ -21,13 +22,18 @@ public class MinionSpawner : MonoBehaviour {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
         minionsLeft = totalMinions;
-        InvokeRepeating("SpawnMinion", 5, spawnRate);
+        //InvokeRepeating("SpawnMinion", 1, spawnRate);
     }
 	
 	// Update is called once per frame
 	void Update () {
+        if (Input.GetKeyDown(keyToPress))
+        {
+            Instantiate(minionClass, transform.position, Quaternion.identity);
+        }
 	
 	}
 }
