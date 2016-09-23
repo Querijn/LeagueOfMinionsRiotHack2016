@@ -4,7 +4,7 @@ using System.Collections;
 public class Global : MonoBehaviour {
 
     //Record which game object is currently selected.
-    GameObject selected_object;
+    static public GameObject selected_object;
 
     public GameObject snare;
     public GameObject shield;
