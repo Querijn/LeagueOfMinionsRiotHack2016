@@ -108,6 +108,7 @@ public class Minion : MonoBehaviour
 
     IEnumerator Die()
     {
+        FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("minion_attack_1");
         m_Action = Action.Dying;
         m_Animator.PlayAnimation("minion_melee_death3", true, true);
         yield return new WaitForSeconds(0.5f);
