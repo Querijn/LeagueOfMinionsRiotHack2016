@@ -19,7 +19,7 @@ public class MinionSpawner : MonoBehaviour {
         if (Input.GetKeyDown(Global.spawnKey) && CurrentMinionCount < MinionLimit)
         {
             CurrentMinionCount++;
-            Instantiate(minionClass, transform.position, Quaternion.identity);
+            Spawn();
             Global.spawnKey = (KeyCode)((int)Random.Range(97.0f, 122.0f));
         }
 	
