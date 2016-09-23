@@ -8,12 +8,16 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
 
     protected bool isOver;
     protected OpacityFilter opacityFilter;
+    protected Tooltip tooltipHolder;
 
     // Use this for initialization
     void Start ()
     {
         isOver = false;
         opacityFilter = gameObject.GetComponentInChildren<OpacityFilter>();
+        tooltipHolder = gameObject.GetComponentInChildren<Tooltip>();
+        if (tooltipHolder)
+            tooltipHolder.gameObject.SetActive(false);
     }
 	
 	// Update is called once per frame
@@ -28,11 +32,15 @@ public class ButtonScript : MonoBehaviour, IPointerEnterHandler, IPointerExitHan
             else
             {
                 opacityFilter.GetComponent<RawImage>().color = new Color(0, 0, 0, 0f);
+                if (tooltipHolder)
+                    tooltipHolder.gameObject.SetActive(true);
             }
         }
         else
         {
             opacityFilter.GetComponent<RawImage>().color = new Color(0, 0, 0, 0.2f);
+            if (tooltipHolder)
+                tooltipHolder.gameObject.SetActive(false);
         }
 
         if (isOver && Input.GetMouseButtonDown(0) && Global.selected_object)
