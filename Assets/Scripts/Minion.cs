@@ -136,15 +136,14 @@ public class Minion : MonoBehaviour
                 Destroy(a_Collider.gameObject);
             }
         }
-        else if (a_Collider.tag == "Tower")
+        else if (a_Collider.tag == "Minion" || a_Collider.tag == "Tower")
         {
-            m_Action = Action.Atacking;
-            m_attackNext = Time.time + m_attackSpeed;
-            m_attackTowerTarget = a_Collider.gameObject;
-        }
-        else if (a_Collider.tag == "Minion")
-        {
-            if(a_Collider.gameObject.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team)
+            Team t_TowerTeam = a_Collider.gameObject.GetComponent<Team>();
+            Team t_MyTeam = GetComponent<Team>();
+            if (t_TowerTeam == null)
+                t_TowerTeam = a_Collider.transform.parent.GetComponent<Team>();
+
+            if (a_Collider.gameObject.GetComponent<Team>().m_Team != GetComponent<Team>().m_Team)
             {
                 m_Action = Action.Atacking;
                 m_attackNext = Time.time + m_attackSpeed;
