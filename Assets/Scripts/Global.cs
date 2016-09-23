@@ -21,6 +21,8 @@ public class Global : MonoBehaviour {
     public float minimunLeftScroll;
     public float maximumLeftScroll;
 
+    static public GameObject PendingAction;
+
     void AddMana ()
     {
         currentMana += manaPerSec / 5.0f;
@@ -61,6 +63,7 @@ public class Global : MonoBehaviour {
             if (Physics.Raycast(ray, out hit, 100.0f, LayerMask.GetMask(new[] { "Selectables" })))
             {
 
+                //Remove outline shader from previously selected minion.
                 if (selected_object)
                     selected_object.GetComponentInChildren<Renderer>().material.shader = Shader.Find("Unlit/Texture");
 
@@ -74,6 +77,13 @@ public class Global : MonoBehaviour {
                 renderer.material.SetColor("_OutlineColor", Color.green);
                 renderer.material.SetFloat("_Outline", 0.005f);
 
+                //Apply a spell action if one is present.
+                if (PendingAction)
+                {
+                    Instantiate(PendingAction, selected_object.transform.position, Quaternion.identity, selected_object.transform);
+                    PendingAction = null;
+                }
+
             }
             else if (selected_object)
             {
@@ -82,29 +92,6 @@ public class Global : MonoBehaviour {
                 selected_object = null;
             }
         }
-
-        if (selected_object)
-        {
-            if (Input.GetKey(KeyCode.LeftShift))
-            {
-                Snare has_snare = selected_object.GetComponent<Snare>();
-                if (!has_snare)
-                    GameObject.Instantiate(snare, selected_object.transform.position, Quaternion.identity, selected_object.transform);
-            }
-            else if (Input.GetKey(KeyCode.LeftControl))
-            {
-                Shield has_shield = selected_object.GetComponent<Shield>();
-                if (!has_shield)
-                    GameObject.Instantiate(shield, selected_object.transform.position, Quaternion.identity, selected_object.transform);
-            }
-            else if (Input.GetKey(KeyCode.LeftAlt))
-            {
-                Destroy(selected_object);
-            }
-        }
-
-
-
 
         // Moving the Camera
         Vector2 mouseEdge = MouseScreenEdge(20);

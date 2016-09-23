@@ -5,11 +5,17 @@ public class Shield : MonoBehaviour {
 
     public float m_shieldHealth;
 
-
-    // Use this for initialization
-    
+    // Use this for initialization  
     void Start ()
     {
+        if(transform.parent && transform.parent.GetComponentsInChildren<Shield>().Length >= 2)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        //Start playing global sound
+        FindObjectOfType<Camera>().GetComponent<SoundManager>().PlaySound("barrier");
     }
 	
 	// Update is called once per frame
